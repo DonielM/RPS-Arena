@@ -14,8 +14,8 @@
         <span>Rock</span><span>Paper</span><span>Scissors</span>
         </h1>
         <p class="premise">
-        Three shapes, one loop, no way to outsmart it. First to five takes
-        the match.
+        Three shapes, one loop, no way to outsmart it. Choose your match length
+        and be the first to reach the target score.
         </p>
         <div class="nav-toggles">
             <button type="button" id="theme-toggle" class="toggle-btn" aria-pressed="false">
@@ -31,6 +31,11 @@
       <main>
         <section aria-labelledby="score-heading">
             <h2 id="score-heading">Score</h2>
+            <label for="match-length">Match length</label>
+            <select id="match-length">
+                <option value="5">Best of 5</option>
+                <option value="9">Best of 9</option>
+            </select>
             <dl>
                 <div>
                     <dt>Player</dt>
@@ -59,6 +64,7 @@
         <section aria-labelledby="result-heading" aria-live="polite">
             <h2 id="result-heading" class="result-heading">Round result</h2>
             <p id="round-result" class="round-result">Make a choice to begin.</p>
+            <p id="match-status" class="match-status">First to 3 wins the match.</p>
             <p id="player-choice" class="player-choice">Your choice: Not selected</p>
             <p id="computer-choice" class="computer-choice">Computer choice: Not selected</p>
         </section>
