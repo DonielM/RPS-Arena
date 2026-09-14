@@ -4,11 +4,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>RPSLS Arena — Rock, Paper, Scissors</title>
-        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/style.css">
     </head>
   <body>
   <div id="app">
-
+    <!-- HEADER -->
     <header class="site-header">
       <h1 class="wordmark">
         <span>Rock</span><span>Paper</span><span>Scissors</span>
@@ -17,14 +17,24 @@
         Three shapes, one loop, no way to outsmart it. Choose your match length
         and be the first to reach the target score.
         </p>
-        <div class="nav-toggles">
-            <button type="button" id="theme-toggle" class="toggle-btn" aria-pressed="false">
-                <span class="toggle-icon" aria-hidden="true">🌙</span><span> Dark</span>
-            </button>
-            <button type="button" id="sound-toggle" class="toggle-btn" aria-pressed="true">
-                <span class="toggle-icon" aria-hidden="true">🔊</span><span> Sound On</span>
-            </button>
-       </div>
+        <div class="nav-container">
+            <!-- NAV TOGGLES -->
+            <div class="nav-toggles">
+                <button type="button" id="theme-toggle" class="toggle-btn" aria-pressed="false">
+                    <span class="toggle-icon" aria-hidden="true">🌙</span>
+                    <span>Dark</span>
+                </button>
+
+                <button type="button" id="sound-toggle" class="toggle-btn" aria-pressed="true">
+                    <span class="toggle-icon" aria-hidden="true">🔊</span>
+                    <span>Sound On</span>
+                </button>
+            </div>
+            <!-- MAIN NAVIGATION -->
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="about.html">ℹ️ About</a>
+            </nav>
+        </div>
     </header>
 
     <div class="shell">
@@ -69,7 +79,9 @@
             <p id="computer-choice" class="computer-choice">Computer choice: Not selected</p>
         </section>
 
-        <button type="button" id="reset-button">Reset game</button>
+        <section aria-labelledby="reset-heading" class="reset-section">
+            <button type="button" id="reset-button">🔄 Reset Game</button>
+        </section>
     </main>
     </div>
 
