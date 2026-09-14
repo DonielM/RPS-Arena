@@ -2,13 +2,16 @@
 
 A fast, accessible Rock, Paper, Scissors game built during a group hackathon. Pick your match length, play against the computer, and race to the target score.
 
-**Repository:** [github.com/DonielM/Project-X](https://github.com/DonielM/Project-X)
-**Live Site:** [github.com/DonielM/Project-X](github.com/DonielM/Project-X) <!-- TODO: confirm/update once deployed to GitHub Pages -->
+**Repository:** [github.com/CIMarko/BC_project_1](https://github.com/CIMarko/BC_project_1)
+**Live Site:** [https://cimarko.github.io/BC_project_1/](https://cimarko.github.io/BC_project_1/) <!-- TODO: confirm/update once deployed to GitHub Pages -->
 
 ---
 
 ## Contents
 
+- [Description](#description)
+- [Game Rules](#game-rules)
+- [Game Modes](#game-modes)
 - [UX](#ux)
   - [User Stories](#user-stories)
   - [Strategy](#strategy)
@@ -21,12 +24,50 @@ A fast, accessible Rock, Paper, Scissors game built during a group hackathon. Pi
   - [Colour Scheme](#colour-scheme)
   - [Imagery](#imagery)
 - [Website Features](#website-features)
+- [Accessibility](#accessibility)
 - [Tablet / Mobile View](#tablet--mobile-view)
+- [Screenshots](#screenshots)
 - [Future Features](#future-features)
-- [Technologies Used](#technologies-used)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Running the Project](#running-the-project)
 - [Deployment](#deployment)
 - [Testing](#testing)
 - [Credits](#credits)
+- [License](#license)
+
+---
+
+## Description
+
+RPS Arena is a browser-based Rock, Paper, Scissors game where you play against the computer. Choose a match length, click your move, and watch the score update live with clear win/lose/tie feedback until someone reaches the target score. Built collaboratively during a group hackathon to practise HTML, CSS, and JavaScript as a team, with a focus on responsive layout, theming, and accessible interaction patterns.
+
+---
+
+## Game Rules
+
+Classic three-way Rock, Paper, Scissors rules apply to every round:
+
+- 🪨 **Rock** beats ✂️ **Scissors**
+- ✂️ **Scissors** beats 📄 **Paper**
+- 📄 **Paper** beats 🪨 **Rock**
+- Matching picks (e.g. Rock vs. Rock) result in a **tie** — no score change for either side
+
+---
+
+## Game Modes
+
+Choose a match length from the dropdown before (or during) play:
+
+| Mode          | Target to win       | Description   |
+| ------------- | ------------------- | ------------- |
+| **Best of 5** | First to **3** wins | Shorter match |
+| **Best of 9** | First to **5** wins | Longer match  |
+
+- Ties do **not** count toward the match target — only wins or losses end a match.
+- The chosen match length is remembered across sessions via `localStorage` (`rps-match-target`).
+- Changing the match length mid-session resets the current score to start a fresh match.
+- Once a player reaches the target, the move buttons disable and a match-end message is shown; click **Reset** to play again.
 
 ---
 
@@ -53,7 +94,7 @@ A fast, accessible Rock, Paper, Scissors game built during a group hackathon. Pi
 
 - Immediate playability — no instructions needed.
 - Clear feedback after every round and at match end.
-- Fully responsive across desktop, tablet, and mobile.
+- Fully responsive and accessible across desktop, tablet, and mobile.
 
 ### Scope
 
@@ -66,7 +107,7 @@ Core features prioritised for the hackathon deadline:
 - Dark/light theme toggle
 - Sound effects with on/off toggle
 - Reset control
-- Responsive layout
+- Responsive, accessible layout
 - About page with team info
 
 ### Structure
@@ -135,28 +176,63 @@ Defined as CSS custom properties, with separate dark/light theme overrides drive
 - 🔊 Sound effects with an on/off control
 - 🔄 One-click reset for a new match
 - 📱 Fully responsive layout for desktop, tablet, and mobile
+- ♿ Accessible markup — semantic landmarks, `aria-live` result region, keyboard-operable controls
 - ℹ️ About page with project background and team credits
 
 ---
 
-## Tablet / Mobile View
+## Accessibility
 
-<!-- TODO: Add real screenshots, e.g.:
-| Desktop | Tablet | Mobile |
-|---|---|---|
-| ![desktop](assets/images/screenshot-desktop.png) | ![tablet](assets/images/screenshot-tablet.png) | ![mobile](assets/images/screenshot-mobile.png) |
--->
+This project follows several accessibility best practices:
+
+- Semantic landmark elements (`<header>`, `<main>`, `<footer>`, `<nav>`) and a clear heading hierarchy for screen-reader navigation.
+- `aria-labelledby` on each game section, pointing to its heading, so assistive tech announces each section's purpose.
+- `aria-live="polite"` on the round-result region so score/result updates are announced automatically without stealing focus.
+- `aria-pressed` state on the theme toggle to communicate current mode to screen readers.
+- Descriptive `aria-label` / `title` attributes on the theme and sound toggle buttons (e.g. "Switch to light mode", "Mute sound effects"), updated dynamically as state changes.
+- Visible `:focus-visible` outlines on all interactive elements for keyboard users.
+- All interactive controls are native `<button>` / `<a>` elements, preserving normal tab order and keyboard operability — no custom widgets that break native semantics.
+- Responsive typography and layout so text stays legible without horizontal scrolling on small screens.
+- Colour palette designed with contrast in mind across both dark and light themes.
+
+_(Recommended follow-up: run a Lighthouse Accessibility audit and/or an axe DevTools scan and record the actual scores — see [Testing](#testing).)_
+
+---
+
+## Tablet / Mobile View
 
 The layout is fully responsive via CSS media queries:
 
 - **≤ 650px** — navigation stacks vertically, move buttons go full-width in a single column, wordmark and headings scale down, footer content stacks.
 - **≤ 400px** — score grid collapses to a single column and result text shrinks further for small phone screens.
 
+See [Screenshots](#screenshots) for visuals across breakpoints once captured.
+
+---
+
+## Screenshots
+
+<!-- TODO: Replace with real screenshots once captured, e.g.:
+![Desktop — game screen (dark mode)](assets/images/screenshot-desktop-dark.png)
+![Desktop — game screen (light mode)](assets/images/screenshot-desktop-light.png)
+![Mobile — game screen](assets/images/screenshot-mobile.png)
+![About page](assets/images/screenshot-about.png)
+-->
+
+Screenshots are pending. Suggested set to capture and add to `assets/images/`:
+
+| File                           | Suggested content                         |
+| ------------------------------ | ----------------------------------------- |
+| `screenshot-desktop-dark.png`  | Game screen, desktop width, dark theme    |
+| `screenshot-desktop-light.png` | Game screen, desktop width, light theme   |
+| `screenshot-tablet.png`        | Game screen at tablet breakpoint          |
+| `screenshot-mobile.png`        | Game screen at mobile breakpoint (≤400px) |
+| `screenshot-about.png`         | About page with team section              |
+
 ---
 
 ## Future Features
 
-- 🦎🖖 Expand from classic RPS to full **Rock, Paper, Scissors, Lizard, Spock** (the site is already titled "RPSLS Arena" — this would close the gap between name and gameplay)
 - 🧑‍🤝‍🧑 Player vs. player (local or online) mode
 - 🏅 Win-streak tracking and a persistent leaderboard
 - 🎞️ Animated move reveals / countdown before each round
@@ -165,7 +241,7 @@ The layout is fully responsive via CSS media queries:
 
 ---
 
-## Technologies Used
+## Technology Stack
 
 **Languages**
 
@@ -191,6 +267,33 @@ The layout is fully responsive via CSS media queries:
 
 ---
 
+## Installation
+
+No build tools, package managers, or dependencies are required — this is a static HTML/CSS/JavaScript site.
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DonielM/Project-X.git
+   cd Project-X
+   ```
+2. That's it — there's nothing to install. Open `index.html` in a browser (see [Running the Project](#running-the-project) below).
+
+## Running the Project
+
+There is no build step. Use any one of the following to run it locally:
+
+- **Quickest:** double-click `index.html` (or right-click → Open With → your browser).
+- **VS Code Live Server:** open the project folder in VS Code, install the "Live Server" extension, then click "Go Live" — serves the site with auto-reload, recommended for development.
+- **Python's built-in server:**
+  ```bash
+  python3 -m http.server
+  ```
+  then visit `http://localhost:8000` in your browser.
+
+To deploy the live version, see [Deployment](#deployment).
+
+---
+
 ## Deployment
 
 This project is deployed using **GitHub Pages**:
@@ -201,11 +304,6 @@ This project is deployed using **GitHub Pages**:
 4. Under **Branch**, choose `main` and the `/ (root)` folder, then click **Save**.
 5. GitHub will build and publish the site — the live URL appears at the top of the Pages settings once deployment finishes (usually within a minute or two).
 6. Revisit **Settings > Pages** after any future push to confirm the deployment succeeded.
-
-**To run locally:**
-
-1. Clone the repository: `git clone https://github.com/CIMarko/BC_project_1.git`
-2. Open `index.html` directly in a browser, or serve the folder with a local server (e.g. the VS Code "Live Server" extension) for the most accurate experience.
 
 ---
 
@@ -231,6 +329,9 @@ This project is deployed using **GitHub Pages**:
 - ✅ Sound toggle mutes/unmutes and persists across reloads
 - ✅ Layout verified at desktop, tablet, and mobile breakpoints
 - ✅ Keyboard focus states visible on all interactive controls
+- ✅ Screen reader announces round result via the `aria-live` region
+
+---
 
 ## Credits
 
@@ -238,13 +339,15 @@ This project is deployed using **GitHub Pages**:
 
 - Icons: [Font Awesome](https://fontawesome.com/)
 - Sound effects: sourced from [Mixkit Sound Effects](https://mixkit.co/free-sound-effects/), used under Mixkit's free sound-effect license. Stored in `assets/audio/`:
-  | File | Sound | Mixkit Category |
-  |---|---|---|
-  | `choice.mp3` | "Select click" | Interface Sounds |
-  | `player-win.mp3` | "Quick win video game notification" | Game/Win Sounds |
-  | `computer-win.mp3` | "Wrong answer fail notification" | Game/Lose Sounds |
-  | `draw.mp3` | "Confirmation tone" | Notification Sounds |
-  | `match-win.mp3` | "Game level completed" | Game Sounds |
+
+  | File               | Sound                               | Mixkit Category     |
+  | ------------------ | ----------------------------------- | ------------------- |
+  | `choice.mp3`       | "Select click"                      | Interface Sounds    |
+  | `player-win.mp3`   | "Quick win video game notification" | Game/Win Sounds     |
+  | `computer-win.mp3` | "Wrong answer fail notification"    | Game/Lose Sounds    |
+  | `draw.mp3`         | "Confirmation tone"                 | Notification Sounds |
+  | `match-win.mp3`    | "Game level completed"              | Game Sounds         |
+
 - Team photos: supplied by each team member
 
 ### Acknowledgements
@@ -254,6 +357,12 @@ This project is deployed using **GitHub Pages**:
   - **Krishna Khokhar** — [GitHub](https://github.com/Krishna2414)
   - **Doniel** — [GitHub](https://github.com/DonielM)
   - **Agustus** — [GitHub](https://github.com/Agustus)
+
+---
+
+## License
+
+This project is licensed under the **MIT License** (suggested as a common permissive default for hackathon/portfolio projects) — see the `LICENSE` file for details, or update this section if a different license applies.
 
 ---
 
