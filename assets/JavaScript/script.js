@@ -122,7 +122,7 @@ function playSound(sound) {
 
 //Game Logic below
 
-//retrieve the score from local storage if its available if not it sets the score to zero
+//Retrieve the score from local storage if its available if not it sets the score to zero
 let score = JSON.parse(localStorage.getItem("score")) || {
   wins: 0,
   losses: 0,
@@ -134,6 +134,13 @@ const rockButton = document.getElementById("rock-button");
 const paperButton = document.getElementById("paper-button");
 const scissorsButton = document.getElementById("scissors-button");
 const resetButton = document.getElementById("reset-button");
+const matchLength = document.getElementById("match-length");
+const matchStatus = document.getElementById("match-status");
+
+//Gives the game two different options best of 5 means the first player to reach 3 wins and the best of 9 requires 5
+//Also stores the chosen gamemode so the selected option stays even on page refresh.
+let matchTarget = Number(localStorage.getItem("rps-match-target")) || 3;
+matchLength.value = matchTarget === 5 ? "9" : "5";
 
 //Query selecting the result display so i can change it when the game starts
 const resultDisplay = document.getElementById("round-result");
@@ -146,6 +153,16 @@ const tiesScore = document.getElementById("ties-score");
 
 //Display the scores by default so it shows previously saved scores if there is one
 displayScore();
+updateMatchStatus();
+
+matchLength.addEventListener("change", () => {
+//This event listener changes the number of wins need to finish the game based on the option chosen
+  matchTarget = matchLength.value === "9" ? 5 : 3;
+  localStorage.setItem("rps-match-target", matchTarget);
+
+//Picking a different game mode resets the score
+  resetScore();
+});
 
 //Added event listener on the move buttons so when clicked it picks the corresponding move.
 //I used arrow functions because its easier to read than regular functions when inside another function
@@ -173,6 +190,11 @@ function computersMove() {
 
 //This functions lets the player pick which move they want and compares it to the computers move to determine the result
 function playerMove(playerPick) {
+//Stops and scores from increasing after the gamemode reaches its required wins
+  if (score.wins >= matchTarget || score.losses >= matchTarget) {
+    return;
+  }
+
   const computerPick = computersMove();
   let result = "";
 
@@ -193,6 +215,22 @@ function playerMove(playerPick) {
   
   displayScore()
   displayResult(playerPick, computerPick, result);
+  updateMatchStatus();
+
+  if (score.wins === matchTarget || score.losses === matchTarget) {
+    const playerWon = score.wins === matchTarget;
+    displayResult(
+      playerPick,
+      computerPick,
+      playerWon ? "You win the match!" : "Computer wins the match!",
+    );
+    playSound(matchWinSound);
+
+//This stops another round from starting after the match is complete
+    rockButton.disabled = true;
+    paperButton.disabled = true;
+    scissorsButton.disabled = true;
+  }
   console.log(result);
 }
 
@@ -212,6 +250,18 @@ function displayScore() {
 
   localStorage.setItem("score", JSON.stringify(score));
 }
+
+function updateMatchStatus() {
+//Ties do not count toward the gamemode target so only wins or losses end a match
+  const winner = score.wins >= matchTarget || score.losses >= matchTarget;
+
+  if (winner) {
+    matchStatus.innerHTML = `Match complete: first to ${matchTarget} wins.`;
+    return;
+  }
+
+  matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
+}
 //Added event listener on the reset button so when clicked it resets the score
 resetButton.addEventListener("click", () => {
  resetScore()
@@ -224,8 +274,12 @@ function resetScore() {
   score.ties = 0;
   displayScore();
   resultDisplay.innerHTML = "Make a choice to begin.";
+  matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
   playerDisplay.innerHTML = "Your choice: Not selected";
   computerDisplay.innerHTML = "Computer choice: Not selected";
+  rockButton.disabled = false;
+  paperButton.disabled = false;
+  scissorsButton.disabled = false;
 }
 
 
