@@ -13,6 +13,7 @@
 }
 
 html[data-theme="dark"] {
+  --body-background: #0f172a;
   --background: #0f172a;
   --border: rgba(255, 255, 255, 0.1);
   --text: #f8fafc;
@@ -20,17 +21,30 @@ html[data-theme="dark"] {
   --panel-light: rgba(18, 26, 46, 0.75);
   --panel: rgba(18, 26, 46, 0.9);
   --text-secondary: #f1f5f9;
+  --border-color: #444;
+  --text-color: #ffffff;
+  --text-secondary: #aaaaaa;
+  --button-background: #222222;
+  --footer-background: #151515;
+  --reset-background: #fff;
 }
 
 html[data-theme="light"] {
-  --background: #f1f5f9;
+  --body-background: #f8fafc;
+  --background: #dddddd;
   --border: rgba(0, 0, 0, 0.1);
   --text: #0f172a;
   --bone: #0f172a;
   --panel-light: rgba(255, 255, 255, 0.75);
   --panel: rgba(255, 255, 255, 0.9);
   --text-secondary: #0f172a;
+  --border-color: #cccccc;
+  --text-color: #222222;
+  --button-background: #eeeeee;
+  --footer-background: #dddddd;
+  --reset-background: #dddddd;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -44,28 +58,24 @@ body {
   font-family: var(--font-ui);
   line-height: 1.55;
   background-color: var(--ink);
-  background: var(--background);
+  background: var(--body-background);
   color: var(--bone);
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 
 .shell {
-  max-width: 940px;
+  max-width: 800px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 #app {
-  max-width: 780px;
   margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
+  padding: 0;
 }
 /* ---------- masthead ---------- */
-.site-header {
-  text-align: center;
-  margin-bottom: clamp(24px, 4vw, 30px);
-}
 .masthead {
   display: flex;
   flex-wrap: wrap;
@@ -74,13 +84,25 @@ body {
   gap: 28px;
 }
 
+.site-header {
+  width: 100%;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .wordmark {
-  font-size: clamp(30px, 8.4vw, 50px);
+  font-size: 2.5rem;
   font-weight: 800;
   line-height: 0.84;
   letter-spacing: -0.035em;
   font-variation-settings: "wdth" 90;
-  margin-bottom: 0.25em;
+  margin: 0;
 }
 .wordmark span {
   display: inline-block;
@@ -96,12 +118,13 @@ body {
 }
 
 .premise {
+  margin: 1.2rem 0 0;
+  color: var(--text-secondary);
+  float: none;
+  width: auto;
+  display: inline-block;
   text-align: center;
-  max-width: 600px;
-  margin: auto;
-  color: var(--text);
-  font-size: 1rem;
-  line-height: 1.6;
+  vertical-align: top;
 }
 
 /* =========================
@@ -117,19 +140,13 @@ main {
   gap: 25px;
 }
 
-/* =========================
-   SECTIONS / CARDS
-   ========================= */
+/* SECTIONS / CARDS */
 
 main section {
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 10px 20px;
-
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 main section h2 {
@@ -155,7 +172,7 @@ main section h2 {
   display: flex;
   gap: 0.5rem;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   flex-wrap: wrap;
 }
 .toggle-btn {
@@ -323,9 +340,7 @@ button:disabled {
   font-weight: 700;
 }
 
-/* =========================
-   RESET BUTTON
-   ========================= */
+/* RESET BUTTON */
 
 #reset-button {
   text-transform: capitalize;
@@ -337,14 +352,52 @@ button:disabled {
 }
 
 #reset-button:hover {
-  color: white;
-  background: var(--panel);
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: var(--border-hover);
 }
 
-/* =========================
-   RESPONSIVE DESIGN
-   ========================= */
+/* HEADER CONTROLS */
+.header-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-controls button {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--button-background);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* FOOTER */
+.site-footer {
+  width: 100%;
+  margin-top: 3rem;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--footer-background);
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* RESPONSIVE DESIGN */
 
 @media (max-width: 650px) {
   body {
@@ -352,7 +405,11 @@ button:disabled {
   }
 
   .wordmark {
-    letter-spacing: -1px;
+    font-size: 2rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
   }
 
   .wordmark span {
@@ -381,9 +438,7 @@ button:disabled {
   }
 }
 
-/* =========================
-   SMALL SCREEN
-   ========================= */
+/* SMALL SCREEN */
 
 @media (max-width: 400px) {
   .premise {
