@@ -252,7 +252,7 @@ dd {
 
 #choice-heading + div {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 15px;
 }
 
@@ -300,6 +300,37 @@ button:focus-visible {
 #scissors-button {
   background: var(--fluo);
   box-shadow: 0 8px 25px rgba(255, 60, 140, 0.25);
+}
+
+#fire-button {
+  background: #ef6c35;
+  box-shadow: 0 8px 25px rgba(239, 108, 53, 0.25);
+}
+
+#dragon-button {
+  background: #7d4fd3;
+  box-shadow: 0 8px 25px rgba(125, 79, 211, 0.25);
+}
+
+#fire-button span,
+#dragon-button span {
+  display: block;
+  font-size: 0.72rem;
+  margin-top: 4px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+  opacity: 0.55;
+  transform: none;
+}
+
+.abilities-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 16px 0 0;
+  text-align: center;
 }
 
 /* =========================

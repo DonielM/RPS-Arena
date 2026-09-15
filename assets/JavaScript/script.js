@@ -133,14 +133,27 @@ let score = JSON.parse(localStorage.getItem("score")) || {
 const rockButton = document.getElementById("rock-button");
 const paperButton = document.getElementById("paper-button");
 const scissorsButton = document.getElementById("scissors-button");
+const fireButton = document.getElementById("fire-button");
+const dragonButton = document.getElementById("dragon-button");
 const resetButton = document.getElementById("reset-button");
 const matchLength = document.getElementById("match-length");
 const matchStatus = document.getElementById("match-status");
+const abilitiesStatus = document.getElementById("abilities-status");
+
+//Keeps ability unlocks after the page is refreshed
+let unlockedAbilities = JSON.parse(localStorage.getItem("rps-unlocked-abilities")) || {
+  fire: false,
+  dragon: false,
+};
+//Dragon beats everything but can only used once during the current match
+let dragonUsed = false;
+let matchComplete = false;
 
 //Gives the game two different options best of 5 means the first player to reach 3 wins and the best of 9 requires 5
-//Also stores the chosen gamemode so the selected option stays even on page refresh.
+//Also stores the chosen gamemode so the selected option stays even on page refresh
 let matchTarget = Number(localStorage.getItem("rps-match-target")) || 3;
 matchLength.value = matchTarget === 5 ? "9" : "5";
+matchComplete = score.wins >= matchTarget || score.losses >= matchTarget;
 
 //Query selecting the result display so i can change it when the game starts
 const resultDisplay = document.getElementById("round-result");
@@ -153,9 +166,10 @@ const tiesScore = document.getElementById("ties-score");
 //Display the scores by default so it shows previously saved scores if there is one
 displayScore();
 updateMatchStatus();
+updateAbilityButtons();
 
 matchLength.addEventListener("change", () => {
-//This event listener changes the number of wins need to finish the game based on the option chosen
+  //This event listener changes the number of wins need to finish the game based on the option chosen
   matchTarget = matchLength.value === "9" ? 5 : 3;
   localStorage.setItem("rps-match-target", matchTarget);
 
@@ -174,6 +188,12 @@ paperButton.addEventListener("click", () => {
 scissorsButton.addEventListener("click", () => {
   playerMove("Scissors");
 });
+fireButton.addEventListener("click", () => {
+  playerMove("Fire");
+});
+dragonButton.addEventListener("click", () => {
+  playerMove("Dragon");
+});
 
 //The following function picks a random number between 0-1 and gives the computer a coressponding move
 //I use return here so i dont have to write else if and else making the code shorter
@@ -187,9 +207,18 @@ function computersMove() {
 
 //This functions lets the player pick which move they want and compares it to the computers move to determine the result
 function playerMove(playerPick) {
-//Stops and scores from increasing after the gamemode reaches its required wins
-  if (score.wins >= matchTarget || score.losses >= matchTarget) {
+  //Ignores locked abilities, used Dragon move, and moves made after the match ends
+  if (
+    matchComplete ||
+    (playerPick === "Fire" && !unlockedAbilities.fire) ||
+    (playerPick === "Dragon" && (!unlockedAbilities.dragon || dragonUsed))
+  ) {
     return;
+  }
+
+  //Marks Dragon as used before finishing the round so it cannot be picked again
+  if (playerPick === "Dragon") {
+    dragonUsed = true;
   }
 
   const computerPick = computersMove();
@@ -199,11 +228,7 @@ function playerMove(playerPick) {
     result = "You, tie";
     playSound(drawSound);
     score.ties++;
-  } else if (
-    (playerPick === "Scissors" && computerPick === "Paper") ||
-    (playerPick === "Paper" && computerPick === "Rock") ||
-    (playerPick === "Rock" && computerPick === "Scissors")
-  ) {
+  } else if (beats(playerPick, computerPick)) {
     result = "You, win!";
     playSound(playerWinSound);
     score.wins++;
@@ -219,6 +244,17 @@ function playerMove(playerPick) {
 
   if (score.wins === matchTarget || score.losses === matchTarget) {
     const playerWon = score.wins === matchTarget;
+    matchComplete = true;
+
+    //A best of 5 win unlocks Fire, a best of 9 win unlocks Dragon permanently across sessions
+    if (playerWon && matchTarget === 3) {
+      unlockedAbilities.fire = true;
+    }
+    if (playerWon && matchTarget === 5) {
+      unlockedAbilities.dragon = true;
+    }
+    saveUnlockedAbilities();
+
     displayResult(
       playerPick,
       computerPick,
@@ -226,12 +262,26 @@ function playerMove(playerPick) {
     );
     playSound(matchWinSound);
 
-//This stops another round from starting after the match is complete
+  //This stops another round from starting after the match is complete
     rockButton.disabled = true;
     paperButton.disabled = true;
     scissorsButton.disabled = true;
   }
+  updateAbilityButtons();
   console.log(result);
+}
+
+function beats(playerPick, computerPick) {
+  //Each move lists the computer moves that it defeats
+  const winningMoves = {
+    Rock: ["Scissors"],
+    Paper: ["Rock"],
+    Scissors: ["Paper"],
+    Fire: ["Paper", "Scissors"],
+    Dragon: ["Rock", "Paper", "Scissors"],
+  };
+
+  return winningMoves[playerPick]?.includes(computerPick) || false;
 }
 
 //This shows what the result was and what pick you and the computer made via string interpolation
@@ -252,7 +302,7 @@ function displayScore() {
 }
 
 function updateMatchStatus() {
-//Ties do not count toward the gamemode target so only wins or losses end a match
+  //Ties do not count toward the gamemode target so only wins or losses end a match
   const winner = score.wins >= matchTarget || score.losses >= matchTarget;
 
   if (winner) {
@@ -261,6 +311,33 @@ function updateMatchStatus() {
   }
 
   matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
+}
+
+function saveUnlockedAbilities() {
+  //Store unlocks separately from the current match score
+  localStorage.setItem("rps-unlocked-abilities", JSON.stringify(unlockedAbilities));
+}
+
+function updateAbilityButtons() {
+  //Keep button availability and the player-facing unlock message in sync
+  const fireUnlocked = unlockedAbilities.fire;
+  const dragonUnlocked = unlockedAbilities.dragon;
+
+  fireButton.disabled = !fireUnlocked || matchComplete;
+  dragonButton.disabled = !dragonUnlocked || dragonUsed || matchComplete;
+  fireButton.innerHTML = fireUnlocked ? "Fire" : "Fire <span>(locked)</span>";
+  dragonButton.innerHTML = dragonUnlocked
+    ? dragonUsed
+      ? "Dragon <span>(used)</span>"
+      : "Dragon"
+    : "Dragon <span>(locked)</span>";
+
+  const unlocked = [];
+  if (fireUnlocked) unlocked.push("Fire");
+  if (dragonUnlocked) unlocked.push("Dragon");
+  abilitiesStatus.innerHTML = unlocked.length
+    ? `${unlocked.join(" and ")} unlocked. Dragon can be used once per match.`
+    : "Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon.";
 }
 //Added event listener on the reset button so when clicked it resets the score
 resetButton.addEventListener("click", () => {
@@ -272,6 +349,9 @@ function resetScore() {
   score.wins = 0;
   score.losses = 0;
   score.ties = 0;
+  //Reset match-only state while keeping permanently unlocked abilities
+  dragonUsed = false;
+  matchComplete = false;
   displayScore();
   resultDisplay.innerHTML = "Make a choice to begin.";
   matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
@@ -280,4 +360,5 @@ function resetScore() {
   rockButton.disabled = false;
   paperButton.disabled = false;
   scissorsButton.disabled = false;
+  updateAbilityButtons();
 }
