@@ -98,16 +98,41 @@ let unlockedAbilities = JSON.parse(
 ) || {
   fire: false,
   dragon: false,
+  //Arena is unlocked after both Fire and Dragon have been unlocked
+  arena: false,
 };
+//Older saved data may not contain Arena, so this checks if arena is unlocked based on the unlocked moves
+unlockedAbilities.arena = Boolean(
+  unlockedAbilities.arena || (unlockedAbilities.fire && unlockedAbilities.dragon),
+);
 //Load the saved value so refreshing the page does not make Dragon available again.
 let dragonUsed = localStorage.getItem("rps-dragon-used") === "true";
+//Store the player's Arena moves so each move remains unavailable after a refresh
+let arenaMovesUsed = JSON.parse(
+  localStorage.getItem("rps-arena-moves-used"),
+) || [];
+//Store the computer's Arena special moves so Fire and Dragon can each be used only once
+let computerArenaMovesUsed = JSON.parse(
+  localStorage.getItem("rps-computer-arena-moves-used"),
+) || [];
 let matchComplete = false;
 
 //Gives the game two different options best of 5 means the first player to reach 3 wins and the best of 9 requires 5
 //Also stores the chosen gamemode so the selected option stays even on page refresh
+//Restore Arena only when the player has already unlocked it
+const savedMatchMode = localStorage.getItem("rps-match-mode");
+if (savedMatchMode === "arena" && !unlockedAbilities.arena) {
+  localStorage.removeItem("rps-match-mode");
+}
+let matchMode =
+  savedMatchMode === "arena" && unlockedAbilities.arena ? "arena" : "standard";
 let matchTarget = Number(localStorage.getItem("rps-match-target")) || 3;
-matchLength.value = matchTarget === 5 ? "9" : "5";
-matchComplete = score.wins >= matchTarget || score.losses >= matchTarget;
+//Select the saved mode and mark an Arena match complete when all five moves were used
+matchLength.value = matchMode === "arena" ? "arena" : matchTarget === 5 ? "9" : "5";
+matchComplete =
+  score.wins >= matchTarget ||
+  score.losses >= matchTarget ||
+  (matchMode === "arena" && arenaMovesUsed.length === 5);
 
 //Query selecting the result display so i can change it when the game starts
 const resultDisplay = document.getElementById("round-result");
@@ -123,8 +148,11 @@ updateMatchStatus();
 updateAbilityButtons();
 
 matchLength.addEventListener("change", () => {
+  //Arena uses the Best of 9 target while keeping the one-use move rule
+  matchMode = matchLength.value === "arena" ? "arena" : "standard";
   //This event listener changes the number of wins need to finish the game based on the option chosen
-  matchTarget = matchLength.value === "9" ? 5 : 3;
+  matchTarget = matchMode === "arena" || matchLength.value === "9" ? 5 : 3;
+  localStorage.setItem("rps-match-mode", matchMode);
   localStorage.setItem("rps-match-target", matchTarget);
 
   //Picking a different game mode resets the score
@@ -152,11 +180,31 @@ dragonButton.addEventListener("click", () => {
 //The following function picks a random number between 0-1 and gives the computer a coressponding move
 //I use return here so i dont have to write else if and else making the code shorter
 function computersMove() {
-  const randomNumber = Math.random();
+  //Arena adds each unlocked move to the computer's pool until that move has been used
+  const availableMoves = ["Rock", "Paper", "Scissors"];
 
-  if (randomNumber < 1 / 3) return "Rock";
-  if (randomNumber < 2 / 3) return "Paper";
-  return "Scissors";
+  if (matchMode === "arena") {
+    if (!computerArenaMovesUsed.includes("Fire")) {
+      availableMoves.push("Fire");
+    }
+    if (!computerArenaMovesUsed.includes("Dragon")) {
+      availableMoves.push("Dragon");
+    }
+  }
+
+  const computerPick =
+    availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+  //Record a computer unlocked move immediately so it cannot be selected again this match
+  if (
+    matchMode === "arena" &&
+    (computerPick === "Fire" || computerPick === "Dragon")
+  ) {
+    computerArenaMovesUsed.push(computerPick);
+    saveComputerArenaMovesUsed();
+  }
+
+  return computerPick;
 }
 
 //This functions lets the player pick which move they want and compares it to the computers move to determine the result
@@ -164,6 +212,8 @@ function playerMove(playerPick) {
   //Ignores locked abilities, used Dragon move, and moves made after the match ends
   if (
     matchComplete ||
+    //Arena prevents the player from selecting any move more than once
+    (matchMode === "arena" && arenaMovesUsed.includes(playerPick)) ||
     (playerPick === "Fire" && !unlockedAbilities.fire) ||
     (playerPick === "Dragon" && (!unlockedAbilities.dragon || dragonUsed))
   ) {
@@ -174,6 +224,11 @@ function playerMove(playerPick) {
   if (playerPick === "Dragon") {
     dragonUsed = true;
     saveDragonUsed();
+  }
+  if (matchMode === "arena") {
+    //Save the player's Arena move before the round is resolved
+    arenaMovesUsed.push(playerPick);
+    saveArenaMovesUsed();
   }
 
   const computerPick = computersMove();
@@ -199,6 +254,13 @@ function playerMove(playerPick) {
   displayResult(playerPick, computerPick, result);
   updateMatchStatus();
 
+  const arenaComplete =
+    matchMode === "arena" && arenaMovesUsed.length === 5;
+  //Arena can end when all five player moves are exhausted, even without five wins
+  if (score.wins === matchTarget || score.losses === matchTarget || arenaComplete) {
+    const playerWon =
+      score.wins === matchTarget ||
+      (arenaComplete && score.wins > score.losses);
   //Only play the round sound if the match is still going, so two sounds never overlap
   const matchOver = score.wins === matchTarget || score.losses === matchTarget;
   if (!matchOver) {
@@ -213,28 +275,33 @@ function playerMove(playerPick) {
     if (playerWon && matchTarget === 3) {
       unlockedAbilities.fire = true;
     }
-    if (playerWon && matchTarget === 5) {
+    if (playerWon && matchTarget === 5 && matchMode === "standard") {
       unlockedAbilities.dragon = true;
     }
+    //Arena becomes permanently available once both fire and dragon moves are unlocked
+    unlockedAbilities.arena = unlockedAbilities.fire && unlockedAbilities.dragon;
     saveUnlockedAbilities();
 
     displayResult(
       playerPick,
       computerPick,
-      playerWon ? "You win the match!" : "Computer wins the match!",
+      playerWon
+        ? "You win the match!"
+        : score.wins === score.losses
+          ? "The match is a draw!"
+          : "Computer wins the match!",
     );
 
     if (playerWon) {
       playSound(matchWinSound);
+    } else if (score.wins === score.losses) {
+      playSound(drawSound);
     } else {
-      // If the computer wins, play the lose sound again to emphasize the match loss.
+      //If the computer wins, play the lose sound again to highlight the match loss
       playSound(matchLoseSound);
     }
 
-    //This stops another round from starting after the match is complete
-    rockButton.disabled = true;
-    paperButton.disabled = true;
-    scissorsButton.disabled = true;
+    updateMatchStatus();
   }
   updateAbilityButtons();
 }
@@ -271,6 +338,11 @@ function displayScore() {
 
 function updateMatchStatus() {
   //Ties do not count toward the gamemode target so only wins or losses end a match
+  //Arena also reports completion when all five unique player moves have been used
+  if (matchMode === "arena" && matchComplete && arenaMovesUsed.length === 5) {
+    matchStatus.innerHTML = "Arena complete: all five moves have been used.";
+    return;
+  }
   const winner = score.wins >= matchTarget || score.losses >= matchTarget;
 
   if (winner) {
@@ -286,6 +358,19 @@ function saveDragonUsed() {
   localStorage.setItem("rps-dragon-used", dragonUsed);
 }
 
+function saveArenaMovesUsed() {
+  //Persist the player's used Arena moves for refresh-safe one-use rule enforcement
+  localStorage.setItem("rps-arena-moves-used", JSON.stringify(arenaMovesUsed));
+}
+
+function saveComputerArenaMovesUsed() {
+  //Persist the computer's used Arena special moves for the current match
+  localStorage.setItem(
+    "rps-computer-arena-moves-used",
+    JSON.stringify(computerArenaMovesUsed),
+  );
+}
+
 function saveUnlockedAbilities() {
   //Store unlocks separately from the current match score
   localStorage.setItem(
@@ -299,6 +384,28 @@ function updateAbilityButtons() {
   const fireUnlocked = unlockedAbilities.fire;
   const dragonUnlocked = unlockedAbilities.dragon;
 
+  fireButton.disabled =
+    //In Arena, Fire is disabled after the player uses it once.
+    !fireUnlocked ||
+    matchComplete ||
+    (matchMode === "arena" && arenaMovesUsed.includes("Fire"));
+  dragonButton.disabled =
+    //Dragon keeps its normal one-use rule and also follows Arena's move tracking
+    !dragonUnlocked ||
+    dragonUsed ||
+    matchComplete ||
+    (matchMode === "arena" && arenaMovesUsed.includes("Dragon"));
+  fireButton.innerHTML =
+    fireUnlocked
+      ? matchMode === "arena" && arenaMovesUsed.includes("Fire")
+        ? "Fire <span>(used)</span>"
+        : "Fire"
+      : "Fire <span>(locked)</span>";
+  dragonButton.innerHTML = dragonUnlocked
+    ? dragonUsed
+      ? "Dragon <span>(used)</span>"
+      : "Dragon"
+    : "Dragon <span>(locked)</span>";
   fireButton.disabled = !fireUnlocked || matchComplete;
   dragonButton.disabled = !dragonUnlocked || dragonUsed || matchComplete;
 
@@ -322,6 +429,32 @@ function updateAbilityButtons() {
   const unlocked = [];
   if (fireUnlocked) unlocked.push("Fire");
   if (dragonUnlocked) unlocked.push("Dragon");
+  if (unlockedAbilities.arena) {
+    abilitiesStatus.innerHTML =
+      "Arena unlocked: Best of 9 with each move available once.";
+  } else {
+    abilitiesStatus.innerHTML = unlocked.length
+      ? `${unlocked.join(" and ")} unlocked. Win Best of 9 to unlock Arena.`
+      : "Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon and Arena.";
+  }
+
+  const arenaOption = matchLength.querySelector('option[value="arena"]');
+  //Keep the mode selector locked or unlocked as the permanent Arena status changes
+  arenaOption.disabled = !unlockedAbilities.arena;
+  arenaOption.textContent = unlockedAbilities.arena
+    ? "Arena (Best of 9)"
+    : "Arena (locked)";
+
+  rockButton.disabled =
+    //Base moves also become locked after one use in Arena
+    matchComplete ||
+    (matchMode === "arena" && arenaMovesUsed.includes("Rock"));
+  paperButton.disabled =
+    matchComplete ||
+    (matchMode === "arena" && arenaMovesUsed.includes("Paper"));
+  scissorsButton.disabled =
+    matchComplete ||
+    (matchMode === "arena" && arenaMovesUsed.includes("Scissors"));
 
   if (unlocked.length > 0) {
     abilitiesStatus.textContent = `${unlocked.join(" and ")} unlocked. Dragon can be used once per match.`;
@@ -344,6 +477,11 @@ function resetScore() {
   //Reset match-only state while keeping permanently unlocked abilities
   dragonUsed = false;
   saveDragonUsed();
+  arenaMovesUsed = [];
+  saveArenaMovesUsed();
+  //Resets the computer's Arena special-move history for the new match
+  computerArenaMovesUsed = [];
+  saveComputerArenaMovesUsed();
   matchComplete = false;
   displayScore();
   resultDisplay.innerHTML = "Make a choice to begin.";
