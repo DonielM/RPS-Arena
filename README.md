@@ -4,7 +4,7 @@ A responsive and accessible Rock, Paper, Scissors game built as a group JavaScri
 
 ![Responsive mockup](assets/images/responsive-mockup.png)
 
-The live website can be found [here](https://github.com/DonielM/RPS-Arena).
+The live website can be found [here](https://donielm.github.io/RPS-Arena/).
 
 The GitHub repository can be found [here](https://github.com/DonielM/RPS-Arena).
 
@@ -178,8 +178,8 @@ The game page is laid out as a series of cards, in this order:
 Wireframes were sketched before development to plan the score panel, move buttons and result area on mobile, tablet and desktop.
 
 - **Desktop Wireframe:** [View Desktop Wireframe](assets/images/wireframe-desktop.png)
-- **Tablet Wireframe:** [View Tablet Wireframe](assets/images/wireframe-tablet.png)
 - **Mobile Wireframe:** [View Mobile Wireframe](assets/images/wireframe-mobile.png)
+- **About Wireframe:** [View About Wireframe](assets/images/wireframe-about-desktop.png)
 
 ![Wireframes](assets/images/wireframes-readme.png)
 
@@ -207,25 +207,25 @@ A system font stack is used for fast loading and a native feel on every device �
 
 Colours are defined as CSS custom properties. Theme colours switch based on the `data-theme` attribute on `<html>`.
 
-| Variable              | Dark theme | Light theme | Use                              |
-| --------------------- | ---------- | ----------- | -------------------------------- |
-| `--body-background`   | `#0f172a`  | `#f8fafc`   | Page background                  |
-| `--background`        | `#0f172a`  | `#dddddd`   | Card backgrounds                 |
-| `--text`              | `#f8fafc`  | `#0f172a`   | Primary text                     |
-| `--bone`              | `#f3eee2`  | `#0f172a`   | Body text                        |
-| `--border-color`      | `#444`     | `#cccccc`   | Borders                          |
-| `--footer-background` | `#151515`  | `#dddddd`   | Footer                           |
-| `--ink-2`             | `#16265a`  | –           | Rock button                      |
-| `--sun`               | `#ffc94a`  | –           | Paper button, wordmark accent    |
-| `--fluo`              | `#ff3c8c`  | –           | Scissors button, wordmark accent |
-| –                     | `#ef6c35`  | –           | Fire button                      |
-| –                     | `#7d4fd3`  | –           | Dragon button                    |
-| `--muted`             | `#94a3b8`  | `#475569`   | Headings, labels, secondary text |
-| `--accent`            | `#4ade80`  | `#166534`   | Player score, round result       |
-| `--scissors`          | `#ff3c8c`  | `#be185d`   | Computer score                   |
-| `--bg-panel-alt`      | `#1e293b`  | `#ffffff`   | Toggle button backgrounds        |
-| `--accent-secondary`  | `#ffc94a`  | `#b45309`   | Active toggle state              |
-| `--border-hover`      | `#94a3b8`  | `#64748b`   | Reset button hover               |
+| Variable              | Dark theme                                 | Light theme                                | Use                                       |
+| --------------------- | ------------------------------------------ | ------------------------------------------ | ----------------------------------------- |
+| `--body-background`   | Gradient `#0f172a` → `#1e1b4b` → `#3b0a2e` | Gradient `#f8fafc` → `#e0e7ff` → `#fce7f3` | Page background (fixed diagonal gradient) |
+| `--background`        | `#0f172a`                                  | `#dddddd`                                  | Card backgrounds                          |
+| `--text`              | `#f8fafc`                                  | `#0f172a`                                  | Primary text                              |
+| `--bone`              | `#f3eee2`                                  | `#0f172a`                                  | Body text                                 |
+| `--border-color`      | `#444`                                     | `#cccccc`                                  | Borders                                   |
+| `--footer-background` | `#151515`                                  | `#dddddd`                                  | Footer                                    |
+| `--ink-2`             | `#16265a`                                  | –                                          | Rock button                               |
+| `--sun`               | `#ffc94a`                                  | –                                          | Paper button, wordmark accent             |
+| `--fluo`              | `#ff3c8c`                                  | –                                          | Scissors button, wordmark accent          |
+| –                     | `#ef6c35`                                  | –                                          | Fire button                               |
+| –                     | `#7d4fd3`                                  | –                                          | Dragon button                             |
+| `--muted`             | `#94a3b8`                                  | `#475569`                                  | Headings, labels, secondary text          |
+| `--accent`            | `#4ade80`                                  | `#166534`                                  | Player score, round result                |
+| `--scissors`          | `#ff3c8c`                                  | `#be185d`                                  | Computer score                            |
+| `--bg-panel-alt`      | `#1e293b`                                  | `#ffffff`                                  | Toggle button backgrounds                 |
+| `--accent-secondary`  | `#ffc94a`                                  | `#b45309`                                  | Active toggle state                       |
+| `--border-hover`      | `#94a3b8`                                  | `#64748b`                                  | Reset button hover                        |
 
 ![Colour palette](assets/images/colour-palette.png)
 
@@ -277,8 +277,6 @@ Standard rules apply every round:
 - The chosen match length is saved (`rps-match-target`) and restored on reload.
 - Changing the match length starts a new match.
 
-![Scoreboard](assets/images/feature-score.png)
-
 ## Move Buttons
 
 - Large, colour-coded buttons for Rock, Paper, Scissors, Fire and Dragon.
@@ -299,8 +297,6 @@ Standard rules apply every round:
 - Shows the round result (win, lose or tie), the match status and what both players picked.
 - When a player reaches the target, a match-end message is shown ("You win the match!" / "Computer wins the match!").
 - The result area uses `aria-live="polite"` so screen readers announce each result.
-
-![Round result](assets/images/feature-result.png)
 
 ## Saved Progress
 
@@ -326,7 +322,7 @@ The following are stored in `localStorage`:
 - Toggle between dark and light themes, handled by `Theme.js` on every page.
 - The preference is remembered between visits.
 
-![Light mode](assets/images/feature-light-mode.png)
+- **Light mode:** [View Light mode Design](assets/images/feature-light-mode.png)
 
 ## Reset Game
 
@@ -341,7 +337,7 @@ The following are stored in `localStorage`:
 - Team profiles with photos, short bios and GitHub links.
 - A **Play Game** button to return to the game.
 
-![About page](assets/images/feature-about.png)
+- **About Page:** [View About Page Design](assets/images/feature-about.png)
 
 ## Footer
 
@@ -408,21 +404,21 @@ Testing included:
 
 Google Lighthouse was used to check both pages for Performance, Accessibility, Best Practices and SEO.
 
-| Page         | Performance | Accessibility | Best Practices | SEO         |
-| ------------ | ----------- | ------------- | -------------- | ----------- |
-| `index.html` | _add score_ | _add score_   | _add score_    | _add score_ |
-| `about.html` | _add score_ | _add score_   | _add score_    | _add score_ |
+| Page         | Performance | Accessibility | Best Practices | SEO |
+| ------------ | ----------- | ------------- | -------------- | --- |
+| `index.html` | 100         | 95            | 100            | 90  |
+| `about.html` | 90          | 95            | 96             | 91  |
 
 ![Lighthouse results](assets/images/lighthouse-results.png)
 
 ## Browser Compatibility
 
-| Browser         | Result        |
-| --------------- | ------------- |
-| Google Chrome   | _Pass / Fail_ |
-| Microsoft Edge  | _Pass / Fail_ |
-| Mozilla Firefox | _Pass / Fail_ |
-| Safari          | _Pass / Fail_ |
+| Browser         | Result |
+| --------------- | ------ |
+| Google Chrome   | Pass   |
+| Microsoft Edge  | Pass   |
+| Mozilla Firefox | Pass   |
+| Safari          | Pass   |
 
 Areas checked: layout, navigation, move buttons, scoring, sound, theme toggle, saved progress and responsive behaviour.
 
@@ -442,10 +438,10 @@ Particular attention was given to text size, button size, spacing and avoiding h
 
 Both pages were checked with the [W3C HTML Validator](https://validator.w3.org/).
 
-| File         | Result        |
-| ------------ | ------------- |
-| `index.html` | _Pass / Fail_ |
-| `about.html` | _Pass / Fail_ |
+| File         | Result |
+| ------------ | ------ |
+| `index.html` | Pass   |
+| `about.html` | Pass   |
 
 ![HTML validation](assets/images/html-validation.png)
 
@@ -455,31 +451,25 @@ Both pages were checked with the [W3C HTML Validator](https://validator.w3.org/)
 
 ![CSS validation](assets/images/css-validation.png)
 
-### JavaScript Validation
-
-`Script.js` and `Theme.js` were checked with [JSHint](https://jshint.com/) (with ES6+ enabled).
-
-![JS validation](assets/images/js-validation.png)
-
 ## Manual Testing
 
-| User Story                                           | Test                                                                                                                         | Result        |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| As a player, I want to pick a move with one click.   | Click Rock, Paper and Scissors and confirm a round is played each time.                                                      | _Pass / Fail_ |
-| As a player, I want to see each round's result.      | Play several rounds and confirm the result, your pick and the computer's pick are shown correctly for wins, losses and ties. | _Pass / Fail_ |
-| As a player, I want an accurate score.               | Confirm the Player, Ties and Computer counts increase correctly.                                                             | _Pass / Fail_ |
-| As a player, I want to choose a match length.        | Select Best of 5 and Best of 9 and confirm the target (3 or 5) is shown and the score resets.                                | _Pass / Fail_ |
-| As a player, I want the match to end at the target.  | Reach the target and confirm the match-end message appears and all move buttons are disabled.                                | _Pass / Fail_ |
-| As a player, I want ties not to end the match.       | Confirm ties do not count towards the target.                                                                                | _Pass / Fail_ |
-| As a player, I want to unlock Fire.                  | Win a Best of 5 match and confirm Fire unlocks and beats Paper and Scissors but loses to Rock.                               | _Pass / Fail_ |
-| As a player, I want to unlock Dragon.                | Win a Best of 9 match and confirm Dragon unlocks, wins its round and shows "(used)" afterwards.                              | _Pass / Fail_ |
-| As a player, I want my progress saved.               | Refresh the page and confirm the score, match length and unlocks are kept.                                                   | _Pass / Fail_ |
-| As a player, I want to reset the game.               | Click Reset Game and confirm the score and result text clear, buttons re-enable and unlocks are kept.                        | _Pass / Fail_ |
-| As a player, I want dark and light mode.             | Toggle the theme, refresh, and confirm the theme is kept on both pages.                                                      | _Pass / Fail_ |
-| As a player, I want to control sound.                | Toggle sound off, play a round (no sound), refresh, and confirm the setting is kept.                                         | _Pass / Fail_ |
-| As a mobile user, I want the game to be easy to use. | Test at mobile widths and check layout, buttons and readability.                                                             | _Pass / Fail_ |
-| As a visitor, I want to learn about the team.        | Open the About page and confirm photos, bios and GitHub links work (opening in a new tab).                                   | _Pass / Fail_ |
-| As a visitor, I want to navigate easily.             | Test the About, Home and Play Game links.                                                                                    | _Pass / Fail_ |
+| User Story                                           | Test                                                                                                                         | Result |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------ |
+| As a player, I want to pick a move with one click.   | Click Rock, Paper and Scissors and confirm a round is played each time.                                                      | Pass   |
+| As a player, I want to see each round's result.      | Play several rounds and confirm the result, your pick and the computer's pick are shown correctly for wins, losses and ties. | Pass   |
+| As a player, I want an accurate score.               | Confirm the Player, Ties and Computer counts increase correctly.                                                             | Pass   |
+| As a player, I want to choose a match length.        | Select Best of 5 and Best of 9 and confirm the target (3 or 5) is shown and the score resets.                                | Pass   |
+| As a player, I want the match to end at the target.  | Reach the target and confirm the match-end message appears and all move buttons are disabled.                                | Pass   |
+| As a player, I want ties not to end the match.       | Confirm ties do not count towards the target.                                                                                | Pass   |
+| As a player, I want to unlock Fire.                  | Win a Best of 5 match and confirm Fire unlocks and beats Paper and Scissors but loses to Rock.                               | Pass   |
+| As a player, I want to unlock Dragon.                | Win a Best of 9 match and confirm Dragon unlocks, wins its round and shows "(used)" afterwards.                              | Pass   |
+| As a player, I want my progress saved.               | Refresh the page and confirm the score, match length and unlocks are kept.                                                   | Pass   |
+| As a player, I want to reset the game.               | Click Reset Game and confirm the score and result text clear, buttons re-enable and unlocks are kept.                        | Pass   |
+| As a player, I want dark and light mode.             | Toggle the theme, refresh, and confirm the theme is kept on both pages.                                                      | Pass   |
+| As a player, I want to control sound.                | Toggle sound off, play a round (no sound), refresh, and confirm the setting is kept.                                         | Pass   |
+| As a mobile user, I want the game to be easy to use. | Test at mobile widths and check layout, buttons and readability.                                                             | Pass   |
+| As a visitor, I want to learn about the team.        | Open the About page and confirm photos, bios and GitHub links work (opening in a new tab).                                   | Pass   |
+| As a visitor, I want to navigate easily.             | Test the About, Home and Play Game links.                                                                                    | Pass   |
 
 ## Accessibility Testing
 
@@ -534,7 +524,7 @@ Accessibility was considered throughout development. The following were checked:
 
 ## Live Website
 
-https://DonielM.github.io/RPS-Arena/
+https://donielm.github.io/RPS-Arena/
 
 ## GitHub Repository
 

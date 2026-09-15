@@ -13,8 +13,13 @@
 }
 
 html[data-theme="dark"] {
-  --body-background: #0f172a;
-  --background: #0f172a;
+  --body-background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e1b4b 50%,
+    #3b0a2e 100%
+  );
+  --background: rgba(15, 23, 42, 0.72);
   --border: rgba(255, 255, 255, 0.1);
   --text: #f8fafc;
   --bone: #f3eee2;
@@ -24,7 +29,7 @@ html[data-theme="dark"] {
   --text-color: #ffffff;
   --text-secondary: #aaaaaa;
   --button-background: #222222;
-  --footer-background: #151515;
+  --footer-background: rgba(10, 15, 30, 0.85);
   --reset-background: #fff;
   --muted: #94a3b8;
   --accent: #4ade80;
@@ -35,8 +40,14 @@ html[data-theme="dark"] {
 }
 
 html[data-theme="light"] {
-  --body-background: #f8fafc;
-  --background: #dddddd;
+  --body-background: linear-gradient(
+    135deg,
+    #f8fafc 0%,
+    #e0e7ff 50%,
+    #fce7f3 100%
+  );
+  --background: rgba(255, 255, 255, 0.8);
+  --footer-background: rgba(255, 255, 255, 0.7);
   --border: rgba(0, 0, 0, 0.1);
   --text: #0f172a;
   --bone: #0f172a;
@@ -46,7 +57,6 @@ html[data-theme="light"] {
   --border-color: #cccccc;
   --text-color: #222222;
   --button-background: #eeeeee;
-  --footer-background: #dddddd;
   --reset-background: #dddddd;
   --muted: #475569;
   --accent: #166534;
@@ -65,15 +75,30 @@ body {
   height: 100%;
 }
 
+html {
+  background: #0f172a; /* fallback while the page loads */
+}
+
+html[data-theme="light"] {
+  background: #f8fafc;
+}
+
 body {
   font-family: var(--font-ui);
   line-height: 1.55;
-  background-color: var(--ink);
-  background: var(--body-background);
   color: var(--bone);
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   margin: 0;
+  min-height: 100vh;
+  background: transparent;
+}
+/* Gradient layer that stays fixed while scrolling */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--body-background);
 }
 
 .shell {
@@ -342,6 +367,7 @@ button:disabled {
 .reset-section {
   text-align: center;
   border: none;
+  background: none;
 }
 #reset-button {
   display: inline-block;
@@ -368,15 +394,34 @@ button:disabled {
   margin: 1.25rem 0 0;
 }
 
+/* About button – same pill style as the toggle buttons */
 .main-nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
   padding: 0.6rem 1rem;
-  color: var(--text-color);
-  text-decoration: none;
-  border: 1px solid var(--border-color);
+  background: var(--bg-panel-alt);
+  color: var(--text);
+  border: 2px solid var(--border);
   border-radius: var(--radius-pill);
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
   transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.main-nav a:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-secondary);
+}
+
+.main-nav a:focus-visible {
+  outline: 3px solid var(--accent-secondary);
+  outline-offset: 3px;
 }
 
 .main-nav a:hover {
@@ -465,6 +510,7 @@ figcaption b {
 .about-action {
   text-align: center;
   border: none;
+  background: none;
 }
 
 .play-button {
@@ -555,21 +601,33 @@ figcaption b {
 
   .nav-container {
     flex-direction: column;
-    gap: 1rem;
-  }
-
-  .nav-toggles {
+    align-items: center;
+    gap: 0.6rem;
     width: 100%;
   }
 
+  .nav-toggles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 320px;
+    margin: 1.5rem auto 0;
+  }
+
   .main-nav {
-    margin-top: 0;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
   }
 
   .main-nav a {
     width: 100%;
-    max-width: 250px;
-    text-align: center;
+  }
+
+  .toggle-btn,
+  .main-nav a {
+    padding: 0.7rem 1rem;
   }
 
   .about-page {
