@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RPS Arena — Rock, Paper, Scissors</title>
+    <title>🎮RPS Arena — Rock, Paper, Scissors | About Page</title>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/js/theme.js"></script>
     <script
       src="https://kit.fontawesome.com/b678a35cb2.js"
       crossorigin="anonymous"
@@ -24,14 +25,9 @@
         <div class="nav-container">
           <!-- NAV TOGGLES -->
           <div class="nav-toggles">
-            <button
-              type="button"
-              id="theme-toggle"
-              class="toggle-btn"
-              aria-pressed="false"
-            >
+            <button type="button" id="theme-toggle" class="toggle-btn">
               <span class="toggle-icon" aria-hidden="true">🌙</span>
-              <span>Dark</span>
+              <span class="toggle-text">Dark</span>
             </button>
           </div>
           <!-- MAIN NAVIGATION -->
@@ -118,17 +114,17 @@
 
         <!-- TEAM -->
         <section class="about-content" id="participants">
-          <div class="about-us-img-container mt-5">
+          <div class="about-us-img-container">
             <figure class="participant">
               <img
                 class="participant-img"
                 src="assets/images/krishna.jpeg"
                 width="200"
-                alt="Team member portfolio image"
+                alt="Portrait of Krishna"
               />
 
               <figcaption>
-                <b>Krishna Khokhar</b><br />
+                <b>Krishna</b><br />
                 Creative thinking and problem solving are what keep me
                 motivated. I enjoy experimenting with ideas until they become
                 something useful.
@@ -139,8 +135,9 @@
                 href="https://github.com/Krishna2414"
                 target="_blank"
                 rel="noopener"
+                aria-label="Krishna on GitHub (opens in a new tab)"
               >
-                <i class="fa-brands fa-github"></i>
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
               </a>
             </figure>
 
@@ -148,7 +145,8 @@
               <img
                 class="participant-img"
                 src="assets/images/DonielM.jpg"
-                alt="Team member portfolio image"
+                width="200"
+                alt="Portrait of Doniel"
               />
 
               <figcaption>
@@ -163,8 +161,9 @@
                 href="https://github.com/DonielM"
                 target="_blank"
                 rel="noopener"
+                aria-label="Doniel on GitHub (opens in a new tab)"
               >
-                <i class="fa-brands fa-github"></i>
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
               </a>
             </figure>
 
@@ -172,7 +171,8 @@
               <img
                 class="participant-img"
                 src="assets/images/agustus.jpg"
-                alt="Team member portfolio image"
+                width="200"
+                alt="Portrait of Agustus"
               />
 
               <figcaption>
@@ -181,14 +181,14 @@
                 to solve problems. Building things from an idea is what inspires
                 me.
               </figcaption>
-
               <a
                 class="github-link"
                 href="https://github.com/Agustus"
                 target="_blank"
                 rel="noopener"
+                aria-label="Agustus on GitHub (opens in a new tab)"
               >
-                <i class="fa-brands fa-github"></i>
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
               </a>
             </figure>
           </div>
@@ -208,7 +208,6 @@
           <p>Built for fun. Play fair. 🎮</p>
         </div>
       </footer>
-      <script src="assets/js/theme.js"></script>
     </div>
   </body>
 </html>

@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 //DARK / LIGHT MODE
 //This file is loaded in the <head> of every page so the saved theme is applied
 //before the page is shown, which stops the page flashing the wrong theme
@@ -34,26 +35,16 @@ function toggleTheme() {
 
 //UPDATE THEME BUTTON
 function updateThemeButton(theme) {
-  //Look the button up here, because it doesn't exist yet when this file first runs
   const themeToggle = document.getElementById("theme-toggle");
+  if (!themeToggle) return;
 
-  if (!themeToggle) {
-    return;
-  }
-
-  if (theme === "dark") {
-    themeToggle.textContent = "☀️ Light";
-
-    themeToggle.setAttribute("aria-label", "Switch to light mode");
-
-    themeToggle.setAttribute("title", "Switch to light mode");
-  } else {
-    themeToggle.textContent = "🌙 Dark";
-
-    themeToggle.setAttribute("aria-label", "Switch to dark mode");
-
-    themeToggle.setAttribute("title", "Switch to dark mode");
-  }
+  const nextTheme = theme === "dark" ? "light" : "dark";
+  themeToggle.querySelector(".toggle-icon").textContent =
+    theme === "dark" ? "☀️" : "🌙";
+  themeToggle.querySelector(".toggle-text").textContent =
+    theme === "dark" ? "Light" : "Dark";
+  themeToggle.setAttribute("aria-label", `Switch to ${nextTheme} mode`);
+  themeToggle.setAttribute("title", `Switch to ${nextTheme} mode`);
 }
 
 //LOAD SAVED THEME
