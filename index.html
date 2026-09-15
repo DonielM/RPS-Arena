@@ -3,34 +3,49 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RPSLS Arena — Rock, Paper, Scissors</title>
-        <link rel="stylesheet" href="assets/css/styles.css">
+        <title>RPS Arena — Rock, Paper, Scissors</title>
+        <link rel="stylesheet" href="assets/css/style.css">
     </head>
   <body>
   <div id="app">
-
+    <!-- HEADER -->
     <header class="site-header">
       <h1 class="wordmark">
         <span>Rock</span><span>Paper</span><span>Scissors</span>
         </h1>
         <p class="premise">
-        Three shapes, one loop, no way to outsmart it. First to five takes
-        the match.
+        Three shapes, one loop, no way to outsmart it. Choose your match length
+        and be the first to reach the target score.
         </p>
-        <div class="nav-toggles">
-            <button type="button" id="theme-toggle" class="toggle-btn" aria-pressed="false">
-                <span class="toggle-icon" aria-hidden="true">🌙</span><span> Dark</span>
-            </button>
-            <button type="button" id="sound-toggle" class="toggle-btn" aria-pressed="true">
-                <span class="toggle-icon" aria-hidden="true">🔊</span><span> Sound On</span>
-            </button>
-       </div>
+        <div class="nav-container">
+            <!-- NAV TOGGLES -->
+            <div class="nav-toggles">
+                <button type="button" id="theme-toggle" class="toggle-btn" aria-pressed="false">
+                    <span class="toggle-icon" aria-hidden="true">🌙</span>
+                    <span>Dark</span>
+                </button>
+
+                <button type="button" id="sound-toggle" class="toggle-btn" aria-pressed="true">
+                    <span class="toggle-icon" aria-hidden="true">🔊</span>
+                    <span>Sound On</span>
+                </button>
+            </div>
+            <!-- MAIN NAVIGATION -->
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="about.html">ℹ️ About</a>
+            </nav>
+        </div>
     </header>
 
     <div class="shell">
         <main>
         <section aria-labelledby="score-heading">
             <h2 id="score-heading">Score</h2>
+            <label for="match-length">Match length</label>
+            <select id="match-length">
+                <option value="5">Best of 5</option>
+                <option value="9">Best of 9</option>
+            </select>
             <dl>
                 <div>
                     <dt>Player</dt>
@@ -53,18 +68,25 @@
                 <button type="button" id="rock-button" class="rock-button">Rock</button>
                 <button type="button" id="paper-button" class="paper-button">Paper</button>
                 <button type="button" id="scissors-button" class="scissors-button">Scissors</button>
+                <button type="button" id="fire-button" class="fire-button">Fire <span>(locked)</span></button>
+                <button type="button" id="dragon-button" class="dragon-button">Dragon <span>(locked)</span></button>
             </div>
+            <p id="abilities-status" class="abilities-status">Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon.</p>
         </section>
 
         <section aria-labelledby="result-heading" aria-live="polite">
             <h2 id="result-heading" class="result-heading">Round result</h2>
             <p id="round-result" class="round-result">Make a choice to begin.</p>
+            <p id="match-status" class="match-status">First to 3 wins the match.</p>
             <p id="player-choice" class="player-choice">Your choice: Not selected</p>
             <p id="computer-choice" class="computer-choice">Computer choice: Not selected</p>
         </section>
 
         <button type="button" id="reset-button">Reset game</button>
-        </main>
+    </main>
+
+   
+
     </div>
 
     <!-- FOOTER --> 

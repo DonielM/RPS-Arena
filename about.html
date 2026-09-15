@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RPS Arena — Rock, Paper, Scissors</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/b678a35cb2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- HEADER -->
+      <header class="site-header">
+        <h1 class="wordmark">
+          <span>Rock</span><span>Paper</span><span>Scissors</span>
+        </h1>
+        <p class="premise">
+          Three shapes, one loop, no way to outsmart it. Choose your match
+          length and be the first to reach the target score.
+        </p>
+        <div class="nav-container">
+          <!-- NAV TOGGLES -->
+          <div class="nav-toggles">
+            <button
+              type="button"
+              id="theme-toggle"
+              class="toggle-btn"
+              aria-pressed="false"
+            >
+              <span class="toggle-icon" aria-hidden="true">🌙</span>
+              <span>Dark</span>
+            </button>
+          </div>
+          <!-- MAIN NAVIGATION -->
+          <nav class="main-nav" aria-label="Main navigation">
+            <a href="index.html">🏠 Home</a>
+          </nav>
+        </div>
+      </header>
+
+      <!-- ABOUT CONTENT -->
+      <main class="about-page">
+        <section class="about-section">
+          <h2>About RPS Arena</h2>
+          <p>
+            RPS Arena is a fun and interactive Rock, Paper, Scissors game
+            created as part of our group hackathon project.
+          </p>
+          <p>
+            Our goal was to create a simple, accessible and enjoyable game where
+            players can compete against the computer. They choose a Best of 5 or
+            Best of 9 match, and whoever reaches the target score first wins.
+          </p>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="about-section">
+          <h2>Game Features</h2>
+
+          <ul>
+            <li>Play Rock, Paper or Scissors against the computer.</li>
+            <li>
+              The computer picks Rock, Paper or Scissors at random each round.
+            </li>
+            <li>
+              Two match lengths: Best of 5 (first to 3 wins) or Best of 9 (first
+              to 5 wins).
+            </li>
+            <li>
+              Live score for player wins, computer wins and ties. Ties do not
+              count towards winning the match.
+            </li>
+            <li>Clear win, lose and tie feedback showing both choices.</li>
+            <li>
+              Unlockable Fire move: win a Best of 5 match to unlock it. Fire
+              beats Paper and Scissors but loses to Rock.
+            </li>
+            <li>
+              Unlockable Dragon move: win a Best of 9 match to unlock it. Dragon
+              beats every move but can only be used once per match.
+            </li>
+            <li>
+              Score, match length and unlocked moves are saved, so your progress
+              is kept when you refresh or come back later.
+            </li>
+            <li>
+              Reset Game button to start a new match while keeping unlocked
+              moves. Changing the match length also starts a new match.
+            </li>
+            <li>Dark and light mode, remembered between visits.</li>
+            <li>
+              Sound effects with an on/off control, remembered between visits.
+            </li>
+            <li>Round results are announced to screen reader users.</li>
+            <li>Responsive design for desktop, tablet and mobile.</li>
+          </ul>
+        </section>
+
+        <!-- HACKATHON -->
+        <section class="about-section">
+          <h2>Our Hackathon Project</h2>
+
+          <p>
+            This project was developed collaboratively during our group
+            hackathon. We worked together to plan the game, design the
+            interface, develop the functionality and test the final product.
+          </p>
+
+          <p>
+            The project gave us an opportunity to practise HTML, CSS and
+            JavaScript while working as a team and following user stories and
+            acceptance criteria.
+          </p>
+        </section>
+
+        <!-- TEAM -->
+        <section class="about-content" id="participants">
+          <div class="about-us-img-container mt-5">
+            <figure class="participant">
+              <img
+                class="participant-img"
+                src="assets/images/krishna.jpeg"
+                width="200"
+                alt="Team member portfolio image"
+              />
+
+              <figcaption>
+                <b>Krishna Khokhar</b><br />
+                Creative thinking and problem solving are what keep me
+                motivated. I enjoy experimenting with ideas until they become
+                something useful.
+              </figcaption>
+
+              <a
+                class="remove"
+                href="https://github.com/Krishna2414"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </figure>
+
+            <figure class="participant">
+              <img
+                class="participant-img"
+                src="assets/images/DonielM.jpg"
+                alt="Team member portfolio image"
+              />
+
+              <figcaption>
+                <b>Doniel</b><br />
+                Curious by nature and always ready to learn something new. I
+                enjoy turning simple ideas into something people can interact
+                with.
+              </figcaption>
+
+              <a
+                class="remove"
+                href="https://github.com/DonielM"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </figure>
+
+            <figure class="participant">
+              <img
+                class="participant-img"
+                src="assets/images/member3.png"
+                alt="Team member portfolio image"
+              />
+
+              <figcaption>
+                <b>Agustus</b><br />
+                I enjoy learning through challenges and finding different ways
+                to solve problems. Building things from an idea is what inspires
+                me.
+              </figcaption>
+
+              <a
+                class="remove"
+                href="https://github.com/Agustus"
+                target="_blank"
+                rel="noopener"
+              >
+                <i class="fa-brands fa-github"></i>
+              </a>
+            </figure>
+          </div>
+        </section>
+
+        <!-- BACK TO GAME -->
+        <section class="about-action">
+          <a href="index.html" class="play-button"> 🎮 Play Game </a>
+        </section>
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-content">
+          <p>&copy; 2026 RPS Arena</p>
+          <p>Rock • Paper • Scissors</p>
+          <p>Built for fun. Play fair. 🎮</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
