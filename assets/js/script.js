@@ -257,18 +257,18 @@ function playerMove(playerPick) {
   const arenaComplete =
     matchMode === "arena" && arenaMovesUsed.length === 5;
   //Arena can end when all five player moves are exhausted, even without five wins
-  if (score.wins === matchTarget || score.losses === matchTarget || arenaComplete) {
-    const playerWon =
-      score.wins === matchTarget ||
-      (arenaComplete && score.wins > score.losses);
+  const matchOver =
+    score.wins === matchTarget || score.losses === matchTarget || arenaComplete;
+
   //Only play the round sound if the match is still going, so two sounds never overlap
-  const matchOver = score.wins === matchTarget || score.losses === matchTarget;
   if (!matchOver) {
     playSound(roundSound);
   }
 
-  if (score.wins === matchTarget || score.losses === matchTarget) {
-    const playerWon = score.wins === matchTarget;
+  if (matchOver) {
+    const playerWon =
+      score.wins === matchTarget ||
+      (arenaComplete && score.wins > score.losses);
     matchComplete = true;
 
     //A best of 5 win unlocks Fire, a best of 9 win unlocks Dragon permanently across sessions
@@ -402,28 +402,10 @@ function updateAbilityButtons() {
         : "Fire"
       : "Fire <span>(locked)</span>";
   dragonButton.innerHTML = dragonUnlocked
-    ? dragonUsed
+    ? dragonUsed || (matchMode === "arena" && arenaMovesUsed.includes("Dragon"))
       ? "Dragon <span>(used)</span>"
       : "Dragon"
     : "Dragon <span>(locked)</span>";
-  fireButton.disabled = !fireUnlocked || matchComplete;
-  dragonButton.disabled = !dragonUnlocked || dragonUsed || matchComplete;
-
-  //Fire button label
-  if (fireUnlocked) {
-    fireButton.innerHTML = "Fire";
-  } else {
-    fireButton.innerHTML = "Fire <span>(locked)</span>";
-  }
-
-  //Dragon button label
-  if (!dragonUnlocked) {
-    dragonButton.innerHTML = "Dragon <span>(locked)</span>";
-  } else if (dragonUsed) {
-    dragonButton.innerHTML = "Dragon <span>(used)</span>";
-  } else {
-    dragonButton.innerHTML = "Dragon";
-  }
 
   //Unlock status message
   const unlocked = [];
@@ -456,12 +438,6 @@ function updateAbilityButtons() {
     matchComplete ||
     (matchMode === "arena" && arenaMovesUsed.includes("Scissors"));
 
-  if (unlocked.length > 0) {
-    abilitiesStatus.textContent = `${unlocked.join(" and ")} unlocked. Dragon can be used once per match.`;
-  } else {
-    abilitiesStatus.textContent =
-      "Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon.";
-  }
 }
 
 //Added event listener on the reset button so when clicked it resets the score
