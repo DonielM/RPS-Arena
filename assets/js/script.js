@@ -8,18 +8,25 @@ const playerWinSound = new Audio("assets/audio/player-win.mp3");
 const computerWinSound = new Audio("assets/audio/computer-win.mp3");
 const drawSound = new Audio("assets/audio/draw.mp3");
 const matchWinSound = new Audio("assets/audio/match-win.mp3");
+const matchLoseSound = new Audio("assets/audio/match-lose.mp3");
 
 let soundEnabled = true;
 
 // Update the button text
+// Update the icon, text and pressed state without removing the spans
 function updateSoundButton() {
-  if (soundEnabled) {
-    soundToggle.textContent = "🔊 Sound On";
-    soundToggle.setAttribute("aria-label", "Mute sound effects");
-  } else {
-    soundToggle.textContent = "🔇 Sound Off";
-    soundToggle.setAttribute("aria-label", "Enable sound effects");
+  if (!soundToggle) {
+    return;
   }
+
+  const icon = soundToggle.querySelector(".toggle-icon");
+  const text = soundToggle.querySelector(".toggle-text");
+
+  icon.textContent = soundEnabled ? "🔊" : "🔇";
+  text.textContent = soundEnabled ? "Sound On" : "Sound Off";
+
+  // Tells screen readers whether sound is currently on
+  soundToggle.setAttribute("aria-pressed", String(soundEnabled));
 }
 
 // Turn sound on/off
@@ -91,8 +98,8 @@ let unlockedAbilities = JSON.parse(
   fire: false,
   dragon: false,
 };
-//Dragon beats everything but can only used once during the current match
-let dragonUsed = false;
+//Load the saved value so refreshing the page does not make Dragon available again.
+let dragonUsed = localStorage.getItem("rps-dragon-used") === "true";
 let matchComplete = false;
 
 //Gives the game two different options best of 5 means the first player to reach 3 wins and the best of 9 requires 5
@@ -165,21 +172,22 @@ function playerMove(playerPick) {
   //Marks Dragon as used before finishing the round so it cannot be picked again
   if (playerPick === "Dragon") {
     dragonUsed = true;
+    saveDragonUsed();
   }
 
   const computerPick = computersMove();
   let result = "";
 
   if (playerPick === computerPick) {
-    result = "You, tie";
+    result = "It's a tie!";
     playSound(drawSound);
     score.ties++;
   } else if (beats(playerPick, computerPick)) {
-    result = "You, win!";
+    result = "You win!";
     playSound(playerWinSound);
     score.wins++;
   } else {
-    result = "You, lose";
+    result = "You lose!";
     playSound(computerWinSound);
     score.losses++;
   }
@@ -206,7 +214,13 @@ function playerMove(playerPick) {
       computerPick,
       playerWon ? "You win the match!" : "Computer wins the match!",
     );
-    playSound(matchWinSound);
+
+    if (playerWon) {
+      playSound(matchWinSound);
+    } else {
+      // If the computer wins, play the lose sound again to emphasize the match loss.
+      playSound(matchLoseSound);
+    }
 
     //This stops another round from starting after the match is complete
     rockButton.disabled = true;
@@ -214,7 +228,6 @@ function playerMove(playerPick) {
     scissorsButton.disabled = true;
   }
   updateAbilityButtons();
-  console.log(result);
 }
 
 function beats(playerPick, computerPick) {
@@ -259,6 +272,11 @@ function updateMatchStatus() {
   matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
 }
 
+function saveDragonUsed() {
+  //Store whether Dragon has been used in the current match
+  localStorage.setItem("rps-dragon-used", dragonUsed);
+}
+
 function saveUnlockedAbilities() {
   //Store unlocks separately from the current match score
   localStorage.setItem(
@@ -300,6 +318,7 @@ function resetScore() {
   score.ties = 0;
   //Reset match-only state while keeping permanently unlocked abilities
   dragonUsed = false;
+  saveDragonUsed();
   matchComplete = false;
   displayScore();
   resultDisplay.innerHTML = "Make a choice to begin.";
