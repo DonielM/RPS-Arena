@@ -127,11 +127,12 @@ if (savedMatchMode === "arena" && !unlockedAbilities.arena) {
 let matchMode =
   savedMatchMode === "arena" && unlockedAbilities.arena ? "arena" : "standard";
 let matchTarget = Number(localStorage.getItem("rps-match-target")) || 3;
+const WINNING_SCORE = 5;
 //Select the saved mode and mark an Arena match complete when all five moves were used
 matchLength.value = matchMode === "arena" ? "arena" : matchTarget === 5 ? "9" : "5";
 matchComplete =
-  score.wins >= matchTarget ||
-  score.losses >= matchTarget ||
+  score.wins >= WINNING_SCORE ||
+  score.losses >= WINNING_SCORE ||
   (matchMode === "arena" && arenaMovesUsed.length === 5);
 
 //Query selecting the result display so i can change it when the game starts
@@ -254,11 +255,8 @@ function playerMove(playerPick) {
   displayResult(playerPick, computerPick, result);
   updateMatchStatus();
 
-  const arenaComplete =
-    matchMode === "arena" && arenaMovesUsed.length === 5;
-  //Arena can end when all five player moves are exhausted, even without five wins
-  const matchOver =
-    score.wins === matchTarget || score.losses === matchTarget || arenaComplete;
+  const scoreCheck = checkCurrentScores();
+  const matchOver = scoreCheck.matchOver;
 
   //Only play the round sound if the match is still going, so two sounds never overlap
   if (!matchOver) {
@@ -267,8 +265,8 @@ function playerMove(playerPick) {
 
   if (matchOver) {
     const playerWon =
-      score.wins === matchTarget ||
-      (arenaComplete && score.wins > score.losses);
+      scoreCheck.playerReachedWinningScore ||
+      (scoreCheck.arenaComplete && score.wins > score.losses);
     matchComplete = true;
 
     //A best of 5 win unlocks Fire, a best of 9 win unlocks Dragon permanently across sessions
@@ -287,14 +285,14 @@ function playerMove(playerPick) {
       computerPick,
       playerWon
         ? "You win the match!"
-        : score.wins === score.losses
+        : scoreCheck.draw
           ? "The match is a draw!"
           : "Computer wins the match!",
     );
 
     if (playerWon) {
       playSound(matchWinSound);
-    } else if (score.wins === score.losses) {
+    } else if (scoreCheck.draw) {
       playSound(drawSound);
     } else {
       //If the computer wins, play the lose sound again to highlight the match loss
@@ -343,14 +341,31 @@ function updateMatchStatus() {
     matchStatus.innerHTML = "Arena complete: all five moves have been used.";
     return;
   }
-  const winner = score.wins >= matchTarget || score.losses >= matchTarget;
+  const scoreCheck = checkCurrentScores();
 
-  if (winner) {
-    matchStatus.innerHTML = `Match complete: first to ${matchTarget} wins.`;
+  if (scoreCheck.playerReachedWinningScore || scoreCheck.computerReachedWinningScore) {
+    matchStatus.innerHTML = `Match complete: first to ${WINNING_SCORE} wins.`;
     return;
   }
 
-  matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
+  matchStatus.innerHTML = `First to ${WINNING_SCORE} wins the match.`;
+}
+
+function checkCurrentScores() {
+  const playerReachedWinningScore = score.wins >= WINNING_SCORE;
+  const computerReachedWinningScore = score.losses >= WINNING_SCORE;
+  const arenaComplete =
+    matchMode === "arena" && arenaMovesUsed.length === 5;
+  const draw = score.wins === score.losses;
+
+  return {
+    playerReachedWinningScore,
+    computerReachedWinningScore,
+    arenaComplete,
+    draw,
+    matchOver:
+      playerReachedWinningScore || computerReachedWinningScore || arenaComplete,
+  };
 }
 
 function saveDragonUsed() {
@@ -461,7 +476,7 @@ function resetScore() {
   matchComplete = false;
   displayScore();
   resultDisplay.innerHTML = "Make a choice to begin.";
-  matchStatus.innerHTML = `First to ${matchTarget} wins the match.`;
+  matchStatus.innerHTML = `First to ${WINNING_SCORE} wins the match.`;
   playerDisplay.innerHTML = "Your choice: Not selected";
   computerDisplay.innerHTML = "Computer choice: Not selected";
   rockButton.disabled = false;
