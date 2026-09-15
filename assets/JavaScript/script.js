@@ -1,60 +1,4 @@
-const themeToggle = document.getElementById("theme-toggle");
-
-//DARK / LIGHT MODE
-function setTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-
-  //Save theme
-  localStorage.setItem("rps-theme", theme);
-
-  updateThemeButton(theme);
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute("data-theme");
-
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-  setTheme(newTheme);
-}
-
-//UPDATE THEME BUTTON
-function updateThemeButton(theme) {
-  if (!themeToggle) {
-    return;
-  }
-
-  if (theme === "dark") {
-    themeToggle.textContent = "☀️ Light";
-
-    themeToggle.setAttribute("aria-label", "Switch to light mode");
-
-    themeToggle.setAttribute("title", "Switch to light mode");
-  } else {
-    themeToggle.textContent = "🌙 Dark";
-
-    themeToggle.setAttribute("aria-label", "Switch to dark mode");
-
-    themeToggle.setAttribute("title", "Switch to dark mode");
-  }
-}
-
-//LOAD SAVED THEME
-function loadTheme() {
-  const savedTheme = localStorage.getItem("rps-theme");
-
-  //Use saved theme if available
-  if (savedTheme === "dark" || savedTheme === "light") {
-    setTheme(savedTheme);
-  } else {
-    //Default theme
-    setTheme("dark");
-  }
-}
-themeToggle.addEventListener("click", toggleTheme);
-
-//START GAME
-loadTheme();
+//DARK / LIGHT MODE code is in theme.js, which is loaded on every page
 
 // SOUND ON / OFF
 const soundToggle = document.getElementById("sound-toggle");
@@ -141,7 +85,9 @@ const matchStatus = document.getElementById("match-status");
 const abilitiesStatus = document.getElementById("abilities-status");
 
 //Keeps ability unlocks after the page is refreshed
-let unlockedAbilities = JSON.parse(localStorage.getItem("rps-unlocked-abilities")) || {
+let unlockedAbilities = JSON.parse(
+  localStorage.getItem("rps-unlocked-abilities"),
+) || {
   fire: false,
   dragon: false,
 };
@@ -173,7 +119,7 @@ matchLength.addEventListener("change", () => {
   matchTarget = matchLength.value === "9" ? 5 : 3;
   localStorage.setItem("rps-match-target", matchTarget);
 
-//Picking a different game mode resets the score
+  //Picking a different game mode resets the score
   resetScore();
 });
 
@@ -262,7 +208,7 @@ function playerMove(playerPick) {
     );
     playSound(matchWinSound);
 
-  //This stops another round from starting after the match is complete
+    //This stops another round from starting after the match is complete
     rockButton.disabled = true;
     paperButton.disabled = true;
     scissorsButton.disabled = true;
@@ -315,7 +261,10 @@ function updateMatchStatus() {
 
 function saveUnlockedAbilities() {
   //Store unlocks separately from the current match score
-  localStorage.setItem("rps-unlocked-abilities", JSON.stringify(unlockedAbilities));
+  localStorage.setItem(
+    "rps-unlocked-abilities",
+    JSON.stringify(unlockedAbilities),
+  );
 }
 
 function updateAbilityButtons() {
