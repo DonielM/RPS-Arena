@@ -1,3 +1,4 @@
+/* jshint esversion: 11 */
 //DARK / LIGHT MODE code is in theme.js, which is loaded on every page
 
 // SOUND ON / OFF
@@ -177,24 +178,32 @@ function playerMove(playerPick) {
 
   const computerPick = computersMove();
   let result = "";
+  //Remember which sound to play, but don't play it yet
+  let roundSound;
 
   if (playerPick === computerPick) {
     result = "It's a tie!";
-    playSound(drawSound);
+    roundSound = drawSound;
     score.ties++;
   } else if (beats(playerPick, computerPick)) {
     result = "You win!";
-    playSound(playerWinSound);
+    roundSound = playerWinSound;
     score.wins++;
   } else {
     result = "You lose!";
-    playSound(computerWinSound);
+    roundSound = computerWinSound;
     score.losses++;
   }
 
   displayScore();
   displayResult(playerPick, computerPick, result);
   updateMatchStatus();
+
+  //Only play the round sound if the match is still going, so two sounds never overlap
+  const matchOver = score.wins === matchTarget || score.losses === matchTarget;
+  if (!matchOver) {
+    playSound(roundSound);
+  }
 
   if (score.wins === matchTarget || score.losses === matchTarget) {
     const playerWon = score.wins === matchTarget;
@@ -292,20 +301,36 @@ function updateAbilityButtons() {
 
   fireButton.disabled = !fireUnlocked || matchComplete;
   dragonButton.disabled = !dragonUnlocked || dragonUsed || matchComplete;
-  fireButton.innerHTML = fireUnlocked ? "Fire" : "Fire <span>(locked)</span>";
-  dragonButton.innerHTML = dragonUnlocked
-    ? dragonUsed
-      ? "Dragon <span>(used)</span>"
-      : "Dragon"
-    : "Dragon <span>(locked)</span>";
 
+  //Fire button label
+  if (fireUnlocked) {
+    fireButton.innerHTML = "Fire";
+  } else {
+    fireButton.innerHTML = "Fire <span>(locked)</span>";
+  }
+
+  //Dragon button label
+  if (!dragonUnlocked) {
+    dragonButton.innerHTML = "Dragon <span>(locked)</span>";
+  } else if (dragonUsed) {
+    dragonButton.innerHTML = "Dragon <span>(used)</span>";
+  } else {
+    dragonButton.innerHTML = "Dragon";
+  }
+
+  //Unlock status message
   const unlocked = [];
   if (fireUnlocked) unlocked.push("Fire");
   if (dragonUnlocked) unlocked.push("Dragon");
-  abilitiesStatus.innerHTML = unlocked.length
-    ? `${unlocked.join(" and ")} unlocked. Dragon can be used once per match.`
-    : "Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon.";
+
+  if (unlocked.length > 0) {
+    abilitiesStatus.textContent = `${unlocked.join(" and ")} unlocked. Dragon can be used once per match.`;
+  } else {
+    abilitiesStatus.textContent =
+      "Win Best of 5 to unlock Fire. Win Best of 9 to unlock Dragon.";
+  }
 }
+
 //Added event listener on the reset button so when clicked it resets the score
 resetButton.addEventListener("click", () => {
   resetScore();
