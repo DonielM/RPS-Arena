@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>404 – Page Not Found | RPS Arena</title>
+    <!-- Absolute paths so styles and scripts load from any broken URL depth -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- HEADER -->
+      <header class="site-header">
+        <h1 class="wordmark">
+          <span>Rock</span><span>Paper</span><span>Scissors</span>
+        </h1>
+        <div class="nav-container">
+          <div class="nav-toggles">
+            <button
+              type="button"
+              id="theme-toggle"
+              class="toggle-btn"
+              aria-pressed="false"
+            >
+              <span class="toggle-icon" aria-hidden="true">🌙</span>
+              <span>Dark</span>
+            </button>
+          </div>
+          <nav class="main-nav" aria-label="Main navigation">
+            <a href="index.html">🏠 Home</a>
+          </nav>
+        </div>
+      </header>
+
+      <!-- 404 CONTENT -->
+      <div class="shell">
+        <main class="error-page">
+          <section aria-labelledby="error-heading">
+            <p class="error-code" aria-hidden="true">404</p>
+            <h2 id="error-heading">Page not found</h2>
+            <p class="error-message">
+              That move isn't in the rulebook. The page you're looking for
+              doesn't exist or may have been moved.
+            </p>
+
+            <div class="error-picks" aria-hidden="true">
+              <p>You picked: <strong>A missing page</strong></p>
+              <p>Computer picked: <strong>Rock</strong></p>
+            </div>
+            <p class="error-result">Result: Page lost this round!</p>
+
+            <div class="error-actions">
+              <a href="index.html" class="play-button">🎮 Back to the Game</a>
+              <a href="about.html" class="error-link">ℹ️ About RPS Arena</a>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-content">
+          <p>&copy; 2026 RPS Arena</p>
+          <p>Rock • Paper • Scissors</p>
+          <p>Built for fun. Play fair. 🎮</p>
+        </div>
+      </footer>
+    </div>
+    <script src="assets/js/theme.js"></script>
+  </body>
+</html>

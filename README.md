@@ -4,10 +4,6 @@ A responsive and accessible Rock, Paper, Scissors game built as a group JavaScri
 
 ![Responsive mockup](assets/images/responsive-mockup.png)
 
-The live website can be found [here](https://donielm.github.io/RPS-Arena/).
-
-The GitHub repository can be found [here](https://github.com/DonielM/RPS-Arena).
-
 ---
 
 ## Contents
@@ -148,11 +144,13 @@ Features prioritised for the hackathon deadline:
 | ------------ | --------------------------------------------------------------------------------------------- |
 | `index.html` | The game – theme/sound toggles, score and match length, move buttons, round result and reset. |
 | `about.html` | Project overview, feature list, hackathon summary, team profiles and a "Play Game" button.    |
+| `404.html`   | Custom "Page not found" page with links back to the game and About page.                      |
 
 ```
 RPS-Arena/
 ├── index.html
 ├── about.html
+├── 404.html
 ├── README.md
 └── assets/
     ├── css/
@@ -339,6 +337,16 @@ The following are stored in `localStorage`:
 
 - **About Page:** [View About Page Design](assets/images/feature-about.png)
 
+## Custom 404 Page
+
+- Shown automatically by GitHub Pages when a visitor opens a link that doesn't exist.
+- Styled like the rest of the site, with a gradient "404" and a game-themed message ("Result: Page lost this round!").
+- Buttons to go back to the game or the About page, so visitors are never stuck.
+- Includes the theme toggle, and uses absolute paths so styles load correctly from any broken URL.
+- Marked `noindex` so search engines don't list it.
+
+![404 page](assets/images/feature-404.png)
+
 ## Footer
 
 - Displayed on every page with copyright and project information.
@@ -354,8 +362,6 @@ The following are stored in `localStorage`:
 - Animated move reveals or a countdown before each round.
 - Keyboard shortcuts for choosing a move.
 - A harder computer opponent that can also use abilities.
-- A custom 404 page.
-- Offline support / installable PWA.
 
 ---
 
@@ -366,10 +372,6 @@ The following are stored in `localStorage`:
 - **HTML5** – page structure and semantic markup.
 - **CSS3** – styling, custom properties, Flexbox, Grid and media queries.
 - **JavaScript (ES6+)** – game logic, DOM manipulation, sound and `localStorage`. No framework.
-
-## Libraries
-
-- **Font Awesome** – GitHub icons on the About page (loaded via CDN kit).
 
 ## Programs & Tools
 
@@ -438,10 +440,11 @@ Particular attention was given to text size, button size, spacing and avoiding h
 
 Both pages were checked with the [W3C HTML Validator](https://validator.w3.org/).
 
-| File         | Result |
-| ------------ | ------ |
-| `index.html` | Pass   |
-| `about.html` | Pass   |
+| File         | Result        |
+| ------------ | ------------- |
+| `index.html` | Pass          |
+| `about.html` | Pass          |
+| `404.html`   | _Pass / Fail_ |
 
 ![HTML validation](assets/images/html-validation.png)
 

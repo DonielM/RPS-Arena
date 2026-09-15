@@ -334,9 +334,7 @@ button:disabled {
   text-align: center;
 }
 
-/* =========================
-   ROUND RESULT
-   ========================= */
+/* ROUND RESULT */
 
 [aria-labelledby="result-heading"] {
   text-align: center;
@@ -506,7 +504,6 @@ figcaption b {
 }
 
 /* ABOUT PAGE BUTTON */
-
 .about-action {
   text-align: center;
   border: none;
@@ -554,6 +551,110 @@ figcaption b {
   font-size: 0.9rem;
 }
 
+/* ========== 404 PAGE ========== */
+.error-page section {
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.error-code {
+  margin: 0;
+  font-size: clamp(5rem, 20vw, 9rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: linear-gradient(90deg, var(--sun), var(--fluo), #7d4fd3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.error-page h2 {
+  margin: 0.75rem 0;
+  font-size: 1.4rem;
+}
+
+.error-message {
+  max-width: 480px;
+  margin: 0 auto 1.5rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.error-picks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.error-picks p {
+  margin: 0;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--panel-light);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.error-picks strong {
+  display: block;
+  color: var(--text);
+}
+
+.error-result {
+  margin: 1.25rem 0 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--scissors);
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.error-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-panel-alt);
+  color: var(--text);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.error-link:hover,
+.play-button:hover {
+  transform: translateY(-3px);
+}
+
+.error-link:focus-visible,
+.play-button:focus-visible {
+  outline: 3px solid var(--accent-secondary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 650px) {
+  .error-picks {
+    grid-template-columns: 1fr;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .error-actions a {
+    justify-content: center;
+  }
+}
 /* RESPONSIVE DESIGN */
 
 @media (max-width: 650px) {
