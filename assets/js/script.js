@@ -91,6 +91,8 @@ const resetButton = document.getElementById("reset-button");
 const matchLength = document.getElementById("match-length");
 const matchStatus = document.getElementById("match-status");
 const abilitiesStatus = document.getElementById("abilities-status");
+const validGameChoices = ["Rock", "Paper", "Scissors", "Fire", "Dragon"];
+let selectedPlayerChoice = "";
 
 //Keeps ability unlocks after the page is refreshed
 let unlockedAbilities = JSON.parse(
@@ -162,20 +164,29 @@ matchLength.addEventListener("change", () => {
 //Added event listener on the move buttons so when clicked it picks the corresponding move.
 //I used arrow functions because its easier to read than regular functions when inside another function
 rockButton.addEventListener("click", () => {
-  playerMove("Rock");
+  handlePlayerChoice("Rock");
 });
 paperButton.addEventListener("click", () => {
-  playerMove("Paper");
+  handlePlayerChoice("Paper");
 });
 scissorsButton.addEventListener("click", () => {
-  playerMove("Scissors");
+  handlePlayerChoice("Scissors");
 });
 fireButton.addEventListener("click", () => {
-  playerMove("Fire");
+  handlePlayerChoice("Fire");
 });
 dragonButton.addEventListener("click", () => {
-  playerMove("Dragon");
+  handlePlayerChoice("Dragon");
 });
+
+function handlePlayerChoice(playerPick) {
+  if (!validGameChoices.includes(playerPick)) {
+    return;
+  }
+
+  selectedPlayerChoice = playerPick;
+  playerMove(playerPick);
+}
 
 //The following function picks a random number between 0-1 and gives the computer a coressponding move
 //I use return here so i dont have to write else if and else making the code shorter
@@ -209,6 +220,10 @@ function computersMove() {
 
 //This functions lets the player pick which move they want and compares it to the computers move to determine the result
 function playerMove(playerPick) {
+  if (!validGameChoices.includes(playerPick)) {
+    return;
+  }
+
   //Ignores locked abilities, used Dragon move, and moves made after the match ends
   if (
     matchComplete ||
@@ -322,7 +337,7 @@ function beats(playerPick, computerPick) {
 //This shows what the result was and what pick you and the computer made via string interpolation
 function displayResult(playerPick, computerPick, result) {
   resultDisplay.innerHTML = `Result: ${result}`;
-  playerDisplay.innerHTML = `You picked: ${playerPick}`;
+  playerDisplay.innerHTML = `You picked: ${selectedPlayerChoice || playerPick}`;
   computerDisplay.innerHTML = `Computer picked: ${computerPick}`;
 }
 
@@ -450,6 +465,7 @@ function resetScore() {
   score.wins = 0;
   score.losses = 0;
   score.ties = 0;
+  selectedPlayerChoice = "";
   //Reset match-only state while keeping permanently unlocked abilities
   dragonUsed = false;
   saveDragonUsed();
