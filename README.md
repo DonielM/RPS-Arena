@@ -1,12 +1,8 @@
-# RPS Arena — Rock, Paper, Scissors
+# 🪨📄✂️ RPS Arena — Rock, Paper, Scissors
 
 A responsive and accessible Rock, Paper, Scissors game built as a group JavaScript hackathon project. Players choose a match length, play against the computer, and race to the target score, unlocking special **Fire** and **Dragon** moves along the way.
 
 ![Responsive mockup](assets/images/responsive-mockup.png)
-
-The live website can be found [here](https://github.com/DonielM/RPS-Arena).
-
-The GitHub repository can be found [here](https://github.com/DonielM/RPS-Arena).
 
 ---
 
@@ -40,6 +36,9 @@ The GitHub repository can be found [here](https://github.com/DonielM/RPS-Arena).
 - [Deployment](#deployment)
 - [Running the Project Locally](#running-the-project-locally)
 - [Team Collaboration](#team-collaboration)
+  - [Project Links](#project-links)
+  - [Agile Approach](#agile-approach)
+  - [Version Control](#version-control)
 - [AI Use and Reflection](#ai-use-and-reflection)
 - [Credits](#credits)
 - [Acknowledgements](#acknowledgements)
@@ -148,11 +147,13 @@ Features prioritised for the hackathon deadline:
 | ------------ | --------------------------------------------------------------------------------------------- |
 | `index.html` | The game – theme/sound toggles, score and match length, move buttons, round result and reset. |
 | `about.html` | Project overview, feature list, hackathon summary, team profiles and a "Play Game" button.    |
+| `404.html`   | Custom "Page not found" page with links back to the game and About page.                      |
 
 ```
 RPS-Arena/
 ├── index.html
 ├── about.html
+├── 404.html
 ├── README.md
 └── assets/
     ├── css/
@@ -178,8 +179,8 @@ The game page is laid out as a series of cards, in this order:
 Wireframes were sketched before development to plan the score panel, move buttons and result area on mobile, tablet and desktop.
 
 - **Desktop Wireframe:** [View Desktop Wireframe](assets/images/wireframe-desktop.png)
-- **Tablet Wireframe:** [View Tablet Wireframe](assets/images/wireframe-tablet.png)
 - **Mobile Wireframe:** [View Mobile Wireframe](assets/images/wireframe-mobile.png)
+- **About Wireframe:** [View About Wireframe](assets/images/wireframe-about-desktop.png)
 
 ![Wireframes](assets/images/wireframes-readme.png)
 
@@ -205,27 +206,41 @@ A system font stack is used for fast loading and a native feel on every device �
 
 ## Colour Scheme
 
-Colours are defined as CSS custom properties. Theme colours switch based on the `data-theme` attribute on `<html>`.
+Colours are defined as CSS custom properties in `style.css`. Theme colours switch based on the `data-theme` attribute on the `<html>` element, which is set by `theme.js`.
 
-| Variable              | Dark theme | Light theme | Use                              |
-| --------------------- | ---------- | ----------- | -------------------------------- |
-| `--body-background`   | `#0f172a`  | `#f8fafc`   | Page background                  |
-| `--background`        | `#0f172a`  | `#dddddd`   | Card backgrounds                 |
-| `--text`              | `#f8fafc`  | `#0f172a`   | Primary text                     |
-| `--bone`              | `#f3eee2`  | `#0f172a`   | Body text                        |
-| `--border-color`      | `#444`     | `#cccccc`   | Borders                          |
-| `--footer-background` | `#151515`  | `#dddddd`   | Footer                           |
-| `--ink-2`             | `#16265a`  | –           | Rock button                      |
-| `--sun`               | `#ffc94a`  | –           | Paper button, wordmark accent    |
-| `--fluo`              | `#ff3c8c`  | –           | Scissors button, wordmark accent |
-| –                     | `#ef6c35`  | –           | Fire button                      |
-| –                     | `#7d4fd3`  | –           | Dragon button                    |
-| `--muted`             | `#94a3b8`  | `#475569`   | Headings, labels, secondary text |
-| `--accent`            | `#4ade80`  | `#166534`   | Player score, round result       |
-| `--scissors`          | `#ff3c8c`  | `#be185d`   | Computer score                   |
-| `--bg-panel-alt`      | `#1e293b`  | `#ffffff`   | Toggle button backgrounds        |
-| `--accent-secondary`  | `#ffc94a`  | `#b45309`   | Active toggle state              |
-| `--border-hover`      | `#94a3b8`  | `#64748b`   | Reset button hover               |
+### Theme Colours
+
+| Variable              | Dark theme                                 | Light theme                                | Use                                               |
+| --------------------- | ------------------------------------------ | ------------------------------------------ | ------------------------------------------------- |
+| `--body-background`   | Gradient `#0f172a` → `#1e1b4b` → `#3b0a2e` | Gradient `#f8fafc` → `#e0e7ff` → `#fce7f3` | Page background (fixed diagonal gradient)         |
+| `--background`        | `rgba(15, 23, 42, 0.72)`                   | `rgba(255, 255, 255, 0.8)`                 | Card (section) backgrounds                        |
+| `--panel-light`       | `rgba(18, 26, 46, 0.75)`                   | `rgba(255, 255, 255, 0.75)`                | Match length dropdown, pick boxes, 404 picks      |
+| `--bg-panel-alt`      | `#1e293b`                                  | `#ffffff`                                  | Toggle buttons, nav links, 404 About button       |
+| `--footer-background` | `rgba(10, 15, 30, 0.85)`                   | `rgba(255, 255, 255, 0.7)`                 | Footer                                            |
+| `--reset-background`  | `#ffffff`                                  | `#dddddd`                                  | Reset Game and Play Game buttons                  |
+| `--text`              | `#f8fafc`                                  | `#0f172a`                                  | Primary text                                      |
+| `--bone`              | `#f3eee2`                                  | `#0f172a`                                  | Body text                                         |
+| `--text-secondary`    | `#aaaaaa`                                  | `#0f172a`                                  | Wordmark "Rock", match status, About text, footer |
+| `--muted`             | `#94a3b8`                                  | `#475569`                                  | Section headings, labels, pick text               |
+| `--accent`            | `#4ade80`                                  | `#166534`                                  | Player score, round result                        |
+| `--scissors`          | `#ff3c8c`                                  | `#be185d`                                  | Computer score, 404 result text                   |
+| `--accent-secondary`  | `#ffc94a`                                  | `#b45309`                                  | Active toggle, nav hover, focus outlines          |
+| `--border`            | `rgba(255, 255, 255, 0.1)`                 | `rgba(0, 0, 0, 0.1)`                       | Card, toggle and dropdown borders                 |
+| `--border-color`      | `#444444`                                  | `#cccccc`                                  | Footer, Reset button and team photo borders       |
+| `--border-hover`      | `#94a3b8`                                  | `#64748b`                                  | Reset button hover border                         |
+
+### Fixed Colours (same in both themes)
+
+| Variable / Element | Colour    | Use                                                |
+| ------------------ | --------- | -------------------------------------------------- |
+| `--ink-2`          | `#16265a` | Rock button, Paper button text                     |
+| `--ink-3`          | `#0a1229` | Reset Game and Play Game button text               |
+| `--sun`            | `#ffc94a` | Paper button, wordmark "Paper", 404 gradient       |
+| `--fluo`           | `#ff3c8c` | Scissors button, wordmark "Scissors", 404 gradient |
+| Fire button        | `#ef6c35` | Fire move button                                   |
+| Dragon button      | `#7d4fd3` | Dragon move button, 404 gradient                   |
+
+Each move button has a matching soft glow (`box-shadow`) in its own colour at 25% opacity, and locked or disabled buttons are greyed out with `grayscale` and reduced opacity.
 
 ![Colour palette](assets/images/colour-palette.png)
 
@@ -277,8 +292,6 @@ Standard rules apply every round:
 - The chosen match length is saved (`rps-match-target`) and restored on reload.
 - Changing the match length starts a new match.
 
-![Scoreboard](assets/images/feature-score.png)
-
 ## Move Buttons
 
 - Large, colour-coded buttons for Rock, Paper, Scissors, Fire and Dragon.
@@ -300,8 +313,6 @@ Standard rules apply every round:
 - When a player reaches the target, a match-end message is shown ("You win the match!" / "Computer wins the match!").
 - The result area uses `aria-live="polite"` so screen readers announce each result.
 
-![Round result](assets/images/feature-result.png)
-
 ## Saved Progress
 
 The following are stored in `localStorage`:
@@ -313,20 +324,19 @@ The following are stored in `localStorage`:
 | `rps-dragon-used`             | Whether Dragon has been used in the current match |
 | `rps-unlocked-abilities`      | Whether Fire and Dragon are unlocked              |
 | `rps-sound`                   | Sound on/off preference                           |
-| Theme key (set in `Theme.js`) | Dark/light preference                             |
+| Theme key (set in `theme.js`) | Dark/light preference                             |
 
 ## Sound Effects
 
 - Different sounds for a round win, round loss, tie and match end.
-- A **Sound On / Sound Off** button with an `aria-label` that updates ("Mute sound effects" / "Enable sound effects").
 - The preference is saved between visits.
 
 ## Dark / Light Mode
 
-- Toggle between dark and light themes, handled by `Theme.js` on every page.
+- Toggle between dark and light themes, handled by `theme.js` on every page.
 - The preference is remembered between visits.
 
-![Light mode](assets/images/feature-light-mode.png)
+- **Light mode:** [View Light mode Design](assets/images/feature-light-mode.png)
 
 ## Reset Game
 
@@ -341,7 +351,17 @@ The following are stored in `localStorage`:
 - Team profiles with photos, short bios and GitHub links.
 - A **Play Game** button to return to the game.
 
-![About page](assets/images/feature-about.png)
+- **About Page:** [View About Page Design](assets/images/feature-about.png)
+
+## Custom 404 Page
+
+- Shown automatically by GitHub Pages when a visitor opens a link that doesn't exist.
+- Styled like the rest of the site, with a gradient "404" and a game-themed message ("Result: Page lost this round!").
+- Buttons to go back to the game or the About page, so visitors are never stuck.
+- Includes the theme toggle, and uses absolute paths so styles load correctly from any broken URL.
+- Marked `noindex` so search engines don't list it.
+
+![404 page](assets/images/feature-404.png)
 
 ## Footer
 
@@ -358,8 +378,6 @@ The following are stored in `localStorage`:
 - Animated move reveals or a countdown before each round.
 - Keyboard shortcuts for choosing a move.
 - A harder computer opponent that can also use abilities.
-- A custom 404 page.
-- Offline support / installable PWA.
 
 ---
 
@@ -370,10 +388,6 @@ The following are stored in `localStorage`:
 - **HTML5** – page structure and semantic markup.
 - **CSS3** – styling, custom properties, Flexbox, Grid and media queries.
 - **JavaScript (ES6+)** – game logic, DOM manipulation, sound and `localStorage`. No framework.
-
-## Libraries
-
-- **Font Awesome** – GitHub icons on the About page (loaded via CDN kit).
 
 ## Programs & Tools
 
@@ -408,21 +422,21 @@ Testing included:
 
 Google Lighthouse was used to check both pages for Performance, Accessibility, Best Practices and SEO.
 
-| Page         | Performance | Accessibility | Best Practices | SEO         |
-| ------------ | ----------- | ------------- | -------------- | ----------- |
-| `index.html` | _add score_ | _add score_   | _add score_    | _add score_ |
-| `about.html` | _add score_ | _add score_   | _add score_    | _add score_ |
+| Page         | Performance | Accessibility | Best Practices | SEO |
+| ------------ | ----------- | ------------- | -------------- | --- |
+| `index.html` | 100         | 95            | 100            | 90  |
+| `about.html` | 90          | 95            | 96             | 91  |
 
 ![Lighthouse results](assets/images/lighthouse-results.png)
 
 ## Browser Compatibility
 
-| Browser         | Result        |
-| --------------- | ------------- |
-| Google Chrome   | _Pass / Fail_ |
-| Microsoft Edge  | _Pass / Fail_ |
-| Mozilla Firefox | _Pass / Fail_ |
-| Safari          | _Pass / Fail_ |
+| Browser         | Result |
+| --------------- | ------ |
+| Google Chrome   | Pass   |
+| Microsoft Edge  | Pass   |
+| Mozilla Firefox | Pass   |
+| Safari          | Pass   |
 
 Areas checked: layout, navigation, move buttons, scoring, sound, theme toggle, saved progress and responsive behaviour.
 
@@ -442,10 +456,11 @@ Particular attention was given to text size, button size, spacing and avoiding h
 
 Both pages were checked with the [W3C HTML Validator](https://validator.w3.org/).
 
-| File         | Result        |
-| ------------ | ------------- |
-| `index.html` | _Pass / Fail_ |
-| `about.html` | _Pass / Fail_ |
+| File         | Result |
+| ------------ | ------ |
+| `index.html` | Pass   |
+| `about.html` | Pass   |
+| `404.html`   | Pass   |
 
 ![HTML validation](assets/images/html-validation.png)
 
@@ -457,29 +472,47 @@ Both pages were checked with the [W3C HTML Validator](https://validator.w3.org/)
 
 ### JavaScript Validation
 
-`Script.js` and `Theme.js` were checked with [JSHint](https://jshint.com/) (with ES6+ enabled).
+Both JavaScript files were checked with [JSHint](https://jshint.com/).
 
-![JS validation](assets/images/js-validation.png)
+Each file starts with a JSHint configuration comment so modern JavaScript syntax is recognised:
+
+- `script.js` uses `/* jshint esversion: 11 */` because the `beats()` function uses optional chaining (`?.`).
+- `theme.js` uses `/* jshint esversion: 6 */` because it uses `const` and arrow functions.
+
+Without these comments, JSHint reports `const`, arrow functions and optional chaining as errors, even though all current browsers support them.
+
+| File        | Result                       |
+| ----------- | ---------------------------- |
+| `script.js` | Pass – no errors or warnings |
+| `theme.js`  | Pass – no errors or warnings |
+
+**script.js**
+
+![JSHint results for script.js](assets/images/jshint-script.png)
+
+**theme.js**
+
+![JSHint results for theme.js](assets/images/jshint-theme.png)
 
 ## Manual Testing
 
-| User Story                                           | Test                                                                                                                         | Result        |
-| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| As a player, I want to pick a move with one click.   | Click Rock, Paper and Scissors and confirm a round is played each time.                                                      | _Pass / Fail_ |
-| As a player, I want to see each round's result.      | Play several rounds and confirm the result, your pick and the computer's pick are shown correctly for wins, losses and ties. | _Pass / Fail_ |
-| As a player, I want an accurate score.               | Confirm the Player, Ties and Computer counts increase correctly.                                                             | _Pass / Fail_ |
-| As a player, I want to choose a match length.        | Select Best of 5 and Best of 9 and confirm the target (3 or 5) is shown and the score resets.                                | _Pass / Fail_ |
-| As a player, I want the match to end at the target.  | Reach the target and confirm the match-end message appears and all move buttons are disabled.                                | _Pass / Fail_ |
-| As a player, I want ties not to end the match.       | Confirm ties do not count towards the target.                                                                                | _Pass / Fail_ |
-| As a player, I want to unlock Fire.                  | Win a Best of 5 match and confirm Fire unlocks and beats Paper and Scissors but loses to Rock.                               | _Pass / Fail_ |
-| As a player, I want to unlock Dragon.                | Win a Best of 9 match and confirm Dragon unlocks, wins its round and shows "(used)" afterwards.                              | _Pass / Fail_ |
-| As a player, I want my progress saved.               | Refresh the page and confirm the score, match length and unlocks are kept.                                                   | _Pass / Fail_ |
-| As a player, I want to reset the game.               | Click Reset Game and confirm the score and result text clear, buttons re-enable and unlocks are kept.                        | _Pass / Fail_ |
-| As a player, I want dark and light mode.             | Toggle the theme, refresh, and confirm the theme is kept on both pages.                                                      | _Pass / Fail_ |
-| As a player, I want to control sound.                | Toggle sound off, play a round (no sound), refresh, and confirm the setting is kept.                                         | _Pass / Fail_ |
-| As a mobile user, I want the game to be easy to use. | Test at mobile widths and check layout, buttons and readability.                                                             | _Pass / Fail_ |
-| As a visitor, I want to learn about the team.        | Open the About page and confirm photos, bios and GitHub links work (opening in a new tab).                                   | _Pass / Fail_ |
-| As a visitor, I want to navigate easily.             | Test the About, Home and Play Game links.                                                                                    | _Pass / Fail_ |
+| User Story                                           | Test                                                                                                                         | Result |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------ |
+| As a player, I want to pick a move with one click.   | Click Rock, Paper and Scissors and confirm a round is played each time.                                                      | Pass   |
+| As a player, I want to see each round's result.      | Play several rounds and confirm the result, your pick and the computer's pick are shown correctly for wins, losses and ties. | Pass   |
+| As a player, I want an accurate score.               | Confirm the Player, Ties and Computer counts increase correctly.                                                             | Pass   |
+| As a player, I want to choose a match length.        | Select Best of 5 and Best of 9 and confirm the target (3 or 5) is shown and the score resets.                                | Pass   |
+| As a player, I want the match to end at the target.  | Reach the target and confirm the match-end message appears and all move buttons are disabled.                                | Pass   |
+| As a player, I want ties not to end the match.       | Confirm ties do not count towards the target.                                                                                | Pass   |
+| As a player, I want to unlock Fire.                  | Win a Best of 5 match and confirm Fire unlocks and beats Paper and Scissors but loses to Rock.                               | Pass   |
+| As a player, I want to unlock Dragon.                | Win a Best of 9 match and confirm Dragon unlocks, wins its round and shows "(used)" afterwards.                              | Pass   |
+| As a player, I want my progress saved.               | Refresh the page and confirm the score, match length and unlocks are kept.                                                   | Pass   |
+| As a player, I want to reset the game.               | Click Reset Game and confirm the score and result text clear, buttons re-enable and unlocks are kept.                        | Pass   |
+| As a player, I want dark and light mode.             | Toggle the theme, refresh, and confirm the theme is kept on both pages.                                                      | Pass   |
+| As a player, I want to control sound.                | Toggle sound off, play a round (no sound), refresh, and confirm the setting is kept.                                         | Pass   |
+| As a mobile user, I want the game to be easy to use. | Test at mobile widths and check layout, buttons and readability.                                                             | Pass   |
+| As a visitor, I want to learn about the team.        | Open the About page and confirm photos, bios and GitHub links work (opening in a new tab).                                   | Pass   |
+| As a visitor, I want to navigate easily.             | Test the About, Home and Play Game links.                                                                                    | Pass   |
 
 ## Accessibility Testing
 
@@ -502,9 +535,8 @@ Accessibility was considered throughout development. The following were checked:
 
 ### Fixed Bugs
 
-| Bug                                                                                                                         | Fix                                                                                                                                                                       |
-| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The match-win sound (`match-win.mp3`) played at the end of every match, including when the computer won.                    | The sound now only plays when the player wins the match (`if (playerWon)`); when the computer wins, the round's lose sound is heard instead.                              |
+| Bug | Fix |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | |
 | Dragon's once-per-match "used" state was only held in memory, so refreshing the page mid-match made Dragon available again. | The state is now saved to `localStorage` (`rps-dragon-used`) when Dragon is played, loaded on page start, and cleared when the game is reset or the match length changes. |
 
 ---
@@ -534,7 +566,7 @@ Accessibility was considered throughout development. The following were checked:
 
 ## Live Website
 
-https://DonielM.github.io/RPS-Arena/
+https://donielm.github.io/RPS-Arena/
 
 ## GitHub Repository
 
@@ -561,19 +593,51 @@ No build tools or dependencies are needed.
 
 # Team Collaboration
 
-The project was planned and managed as a team using:
+## Project Links
 
-- **Miro** – a shared board for project criteria, user stories, design, wireframes and README planning.
-- **Google Slides** – a shared project board for collaboration.
-- **GitHub** – shared repository and version control.
-- **Presentation template** – used to prepare the final hackathon presentation.
+| Resource                  | Link                                                                              |
+| ------------------------- | --------------------------------------------------------------------------------- |
+| **Live Website**          | [donielm.github.io/RPS-Arena](https://donielm.github.io/RPS-Arena/)               |
+| **GitHub Repository**     | [github.com/DonielM/RPS-Arena](https://github.com/DonielM/RPS-Arena)              |
+| **Project Board**         | [GitHub Project Board](https://github.com/users/DonielM/projects/3/views/1)       |
+| **Issues (User Stories)** | [GitHub Issues](https://github.com/DonielM/RPS-Arena/issues)                      |
+| **Planning Board**        | [Miro Board](https://miro.com/app/board/uXjVHrBGoU0=/?share_link_id=743650649614) |
+| **Presentation**          | [Google Slides Presentation]([PASTE PRESENTATION LINK])                           |
+
+## Agile Approach
+
+The project was planned and tracked using an Agile workflow:
+
+- **User stories as GitHub Issues** – each feature was written as a user story with acceptance criteria, using a shared issue template (`.github/ISSUE_TEMPLATE`).
+- **MoSCoW prioritisation** – every issue was labelled **Must Have**, **Should Have** or **Could Have**, so the team built the core game first (scoring, results, reset, match length) before extras like sound effects, dark/light mode and animations.
+- **Project board** – issues were moved across the board columns (**To Do → In Progress → Done**) so everyone could see what was being worked on.
+- **Miro** – used at the start for criteria, user stories, design ideas, wireframes and README planning.
+
+## Version Control
+
+Git and GitHub were used throughout the project, with **[55+]** commits from the team.
+
+### Branching
+
+- `main` is the deployed branch – GitHub Pages publishes directly from it, so it was kept working at all times.
+- [Each new feature or fix was built on its own branch, named after the work, e.g. `feature/dark-mode`, `feature/about-page`, `fix/dragon-refresh`.]
+
+### Pull Requests
+
+- [Finished work was merged into `main` through pull requests.]
+- [Another team member reviewed each pull request and tested the change locally before it was merged.]
+- [Pull requests were linked to their issue (e.g. `Closes #26`), so the issue closed automatically when the work was merged.]
+
+## Planning Steps
 
 The team followed the planning steps from the hackathon board:
 
 1. **Idea & user stories** – define the purpose, audience and user stories.
 2. **Design** – choose colours, typography and button styles with accessibility in mind.
 3. **Wireframes** – sketch mobile, tablet and desktop layouts.
-4. **Documentation** – write this README covering features, technologies, testing and deployment.
+4. **Build & test** – develop features in priority order and test each one against its acceptance criteria.
+5. **Documentation** – write this README covering features, technologies, testing and deployment.
+6. **Presentation** – prepare the final hackathon presentation using the provided template.
 
 ---
 
@@ -621,7 +685,7 @@ AI made parts of the process faster, especially debugging and exploring differen
 
 - **Icons:** [Font Awesome](https://fontawesome.com/)
 - **Team photos:** supplied by each team member.
-- **Sound effects:** [Mixkit](https://mixkit.co/free-sound-effects/), used under the Mixkit free sound-effect licence. Stored in `assets/audio/`:
+- **Sound effects:** [Mixkit](https://mixkit.co/free-soundsound-effects/), used under the Mixkit free sound-effect licence. Stored in `assets/audio/`:
 
 | File               | Sound                               | Mixkit Category     |
 | ------------------ | ----------------------------------- | ------------------- |
@@ -629,7 +693,7 @@ AI made parts of the process faster, especially debugging and exploring differen
 | `computer-win.mp3` | "Wrong answer fail notification"    | Game/Lose Sounds    |
 | `draw.mp3`         | "Confirmation tone"                 | Notification Sounds |
 | `match-win.mp3`    | "Game level completed"              | Game Sounds         |
-| `match-lose.mp3`   | "_Mixkit sound name_"               | _Mixkit category_   |
+| `match-lose.mp3`   | "Player losing or failing"          | Lose Sound Effects  |
 
 ## Team
 
