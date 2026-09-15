@@ -117,7 +117,7 @@ let computerArenaMovesUsed = JSON.parse(
 ) || [];
 let matchComplete = false;
 
-//Gives the game two different options best of 5 means the first player to reach 3 wins and the best of 9 requires 5
+//Gives the game two standard options that track unlock progression plus the Arena mode
 //Also stores the chosen gamemode so the selected option stays even on page refresh
 //Restore Arena only when the player has already unlocked it
 const savedMatchMode = localStorage.getItem("rps-match-mode");
@@ -335,7 +335,7 @@ function displayScore() {
 }
 
 function updateMatchStatus() {
-  //Ties do not count toward the gamemode target so only wins or losses end a match
+  //Ties do not count toward the winning score so only wins or losses end a match
   //Arena also reports completion when all five unique player moves have been used
   if (matchMode === "arena" && matchComplete && arenaMovesUsed.length === 5) {
     matchStatus.innerHTML = "Arena complete: all five moves have been used.";
