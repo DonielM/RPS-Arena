@@ -1,4 +1,4 @@
-# RPS Arena — Rock, Paper, Scissors
+# 🪨📄✂️ RPS Arena — Rock, Paper, Scissors
 
 A responsive and accessible Rock, Paper, Scissors game built as a group JavaScript hackathon project. Players choose a match length, play against the computer, and race to the target score, unlocking special **Fire** and **Dragon** moves along the way.
 
