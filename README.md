@@ -595,14 +595,14 @@ No build tools or dependencies are needed.
 
 ## Project Links
 
-| Resource                  | Link                                                                              |
-| ------------------------- | --------------------------------------------------------------------------------- |
-| **Live Website**          | [donielm.github.io/RPS-Arena](https://donielm.github.io/RPS-Arena/)               |
-| **GitHub Repository**     | [github.com/DonielM/RPS-Arena](https://github.com/DonielM/RPS-Arena)              |
-| **Project Board**         | [GitHub Project Board](https://github.com/users/DonielM/projects/3/views/1)       |
-| **Issues (User Stories)** | [GitHub Issues](https://github.com/DonielM/RPS-Arena/issues)                      |
-| **Planning Board**        | [Miro Board](https://miro.com/app/board/uXjVHrBGoU0=/?share_link_id=743650649614) |
-| **Presentation**          | [Google Slides Presentation]([PASTE PRESENTATION LINK])                           |
+| Resource                  | Link                                                                                                                                                                  |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Live Website**          | [donielm.github.io/RPS-Arena](https://donielm.github.io/RPS-Arena/)                                                                                                   |
+| **GitHub Repository**     | [github.com/DonielM/RPS-Arena](https://github.com/DonielM/RPS-Arena)                                                                                                  |
+| **Project Board**         | [GitHub Project Board](https://github.com/users/DonielM/projects/3/views/1)                                                                                           |
+| **Issues (User Stories)** | [GitHub Issues](https://github.com/DonielM/RPS-Arena/issues)                                                                                                          |
+| **Planning Board**        | [Miro Board](https://miro.com/app/board/uXjVHrBGoU0=/?share_link_id=743650649614)                                                                                     |
+| **Presentation**          | [Google Slides Presentation](https://docs.google.com/presentation/d/1QsDnB0CjYPEVTJW8X_14w5a4-G5B-oYu/edit?usp=sharing&ouid=114179579533710359544&rtpof=true&sd=true) |
 
 ## Agile Approach
 
